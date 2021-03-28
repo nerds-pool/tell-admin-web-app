@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme)=>({
     }
    
   }));
-function ComplainV2() {
+function ComplainV2(props) {
     const classes = useStyles();
     return (
         <>
@@ -34,7 +34,7 @@ function ComplainV2() {
                 alignItems="center"
             >
                 <Card className={classes.card} style={{}}>
-                    <Complaint /> 
+                    <Complaint date={props.date} status={props.status} /> 
                 </Card>
             </Grid>
         </>

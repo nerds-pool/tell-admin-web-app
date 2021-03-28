@@ -65,8 +65,8 @@ function Complaint(props) {
                         <Typography className={`${classes.caption} ${classes.dept}`}>Department</Typography>
                     </CardContent>
                     <CardContent className={classes.medDet}>
-                        <Typography>Date</Typography>
-                        <Typography>Status</Typography>
+                        <Typography>{props.date}</Typography>
+                        <Typography>{props.status}</Typography>
                         <CardMedia/>
                     </CardContent>
                 

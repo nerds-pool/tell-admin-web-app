@@ -6,7 +6,7 @@ function OpenListPageAdmin() {
     return (
         <div>
             <ReportBar/>
-            <Complaint/>
+            <Complaint date={'31/03/2021'} status={'accept'}/>
             
         </div>
     )
