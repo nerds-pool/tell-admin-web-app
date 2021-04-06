@@ -7,14 +7,13 @@ import { ComplaintData } from "../../FetchData/ComplaintData";
 import { Grid } from "@material-ui/core";
 
 
-
-function ProgressListPageAdmin() {
+const RejectedListAdmin = () => {
     return (
         <div>
-           <ReportBar />
+            <ReportBar />
       <Grid container direction="row" justify="center" alignItems="center">
         {ComplaintData.map((val, key) => {
-          if (val.status === "Processing") {
+          if (val.status === "Rejected") {
             return (
               <Complaint
                 key={val.id}
@@ -24,6 +23,7 @@ function ProgressListPageAdmin() {
                 date={val.date}
                 status={val.status}
                 type={val.status}
+                rejDesc = {val.rejDesc}
               />
             );
           } else {
@@ -32,7 +32,8 @@ function ProgressListPageAdmin() {
         })}
       </Grid>
         </div>
+        
     )
 }
 
-export default ProgressListPageAdmin
+export default RejectedListAdmin
