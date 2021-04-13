@@ -36,14 +36,18 @@ function NavBar() {
           </div>
 
           <div className={classes.menu}>
-            <Button disableRipple>Home</Button>
+            <Link to="/">
+              <Button disableRipple>Home</Button>
+            </Link>
             <Link to="/help">
               <Button disableRipple>Help</Button>
             </Link>
             <Button disableRipple>Profile</Button>
-            <Button disableRipple color="inherit">
-              Login
-            </Button>
+            <Link to="/login">
+              <Button disableRipple color="inherit">
+                Login
+              </Button>
+            </Link>
           </div>
         </Toolbar>
       </AppBar>
