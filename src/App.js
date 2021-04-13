@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 /*top*/ import NavBar from "./components/navigationTop/NavBar";
 /*right*/ import SideNavBar from "./components/navigationSide/SideNav";
 /*filter*/ import CategoryFilter from "./components/navigationSide/CategoryFilter";
+/*footer*/ import Footer from "./components/Footer/Footer";
 
 // Pages - Admin
 import AdminHomePage from "./webPages/Admin/HomePageAdmin";
@@ -67,7 +68,9 @@ function App() {
               </Switch>
             </div>
             {/* footer */}
-            <div className="footer"></div>
+            <div className="footer">
+              <Footer />
+            </div>
           </div>
           {/* filter */}
           <div className="filter">
