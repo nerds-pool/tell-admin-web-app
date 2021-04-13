@@ -42,7 +42,9 @@ function NavBar() {
             <Link to="/help">
               <Button disableRipple>Help</Button>
             </Link>
-            <Button disableRipple>Profile</Button>
+            <Link to="/profile">
+              <Button disableRipple>Profile</Button>
+            </Link>
             <Link to="/login">
               <Button disableRipple color="inherit">
                 Login

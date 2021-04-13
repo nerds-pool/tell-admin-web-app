@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
 
@@ -16,6 +15,7 @@ import RejectedListPage from "./webPages/Admin/RejectedListAdmin";
 import AddUser from "./webPages/Admin/AddUser";
 import HelpPage from "./webPages/Admin/HelpPage";
 import LoginPage from "./webPages/Admin/LoginPage";
+import ProfilePage from "./webPages/Admin/ProfilePage";
 
 function App() {
   return (
@@ -60,6 +60,9 @@ function App() {
                 </Route>
                 <Route path="/login">
                   <LoginPage />
+                </Route>
+                <Route path="/profile">
+                  <ProfilePage />
                 </Route>
               </Switch>
             </div>
