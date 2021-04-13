@@ -14,6 +14,7 @@ import AdminOpenListPage from "./webPages/Admin/OpenListPageAdmin";
 import AdminProgressListPage from "./webPages/Admin/ProgressListPageAdmin";
 import RejectedListPage from "./webPages/Admin/RejectedListAdmin";
 import AddUser from "./webPages/Admin/AddUser";
+import HelpPage from "./webPages/Admin/HelpPage";
 
 function App() {
   return (
@@ -52,6 +53,9 @@ function App() {
                 </Route>
                 <Route path="/settings">
                   <AddUser />
+                </Route>
+                <Route path="/help">
+                  <HelpPage />
                 </Route>
               </Switch>
             </div>
