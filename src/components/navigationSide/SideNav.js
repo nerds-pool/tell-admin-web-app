@@ -60,7 +60,7 @@ function SideNav() {
                 <Typography className={`${classes.link} ${classes.list}`} component={Link} to="/progressList" >Progress List</Typography>
                 <Typography className={`${classes.link} ${classes.list}`} component={Link} to="/closedList" >Closed List</Typography>
                 <Typography className={`${classes.link} ${classes.list}`} component={Link} to="/rejectedList" >Rejected List</Typography>
-                <Typography className={classes.link} component={Link} to="/settings" >User Settings</Typography>
+                <Typography className={classes.link} component={Link} to="/settings" >Add Authority User</Typography>
 
             </CardContent>
         </div>

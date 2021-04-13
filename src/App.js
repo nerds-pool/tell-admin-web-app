@@ -13,6 +13,7 @@ import AdminClosedListPage from "./webPages/Admin/ClosedListPageAdmin";
 import AdminOpenListPage from "./webPages/Admin/OpenListPageAdmin";
 import AdminProgressListPage from "./webPages/Admin/ProgressListPageAdmin";
 import RejectedListPage from "./webPages/Admin/RejectedListAdmin";
+import AddUser from "./webPages/Admin/AddUser";
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
                 </Route>
                 <Route path="/rejectedList">
                   <RejectedListPage />
+                </Route>
+                <Route path="/settings">
+                  <AddUser />
                 </Route>
               </Switch>
             </div>
