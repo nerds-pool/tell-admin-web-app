@@ -19,14 +19,9 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
   },
   heading: {
     display: "flex",
-    marginTop: theme.spacing(5),
-    justifyContent: "center",
   },
   container: {
     display: "flex",
@@ -39,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
   },
   Button: {
     backgroundColor: "#b71c1c",
-    width: "100%",
     "&:active": {
       backgroundColor: "#b71c1c",
     },
@@ -47,17 +41,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#b71c1c",
     },
   },
-  Select: {
-    marginTop: theme.spacing(3),
-    width: "100%",
-  },
 }));
 
-const CategoryFilter = () => {
+const DepFilter = () => {
   const classes = useStyles();
 
   const [selectedDate, setSelectedDate] = React.useState(
-    new Date()
+    new Date("2021-03-18T21:11:54")
   );
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -72,20 +62,9 @@ const CategoryFilter = () => {
         </InputLabel>
       </div>
       <FormControl className={classes.formControl}>
-        <Select native id="grouped-native-select" className={classes.Select}>
-          <option value={null}>--Select Category--</option>
-          <option value={1}>Category 1</option>
-          <option value={2}>Category 2</option>
-          <option value={3}>Category 3</option>
-          <option value={4}>Category 4</option>
-        </Select>
-
-        <Select
-          native
-          id="grouped-native-select-dep"
-          className={classes.Select}
-        >
-          <option value={null}>--Select Department--</option>
+        <InputLabel htmlFor="grouped-native-select">Department</InputLabel>
+        <Select native defaultValue="" id="grouped-native-select">
+          <option aria-label="None" value="" />
           <option value={1}>Department 1</option>
           <option value={2}>Department 2</option>
           <option value={3}>Department 3</option>
@@ -95,7 +74,6 @@ const CategoryFilter = () => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="space-around">
             <KeyboardDatePicker
-              className={classes.Select}
               disableToolbar
               variant="inline"
               format="MM/dd/yyyy"
@@ -123,4 +101,4 @@ const CategoryFilter = () => {
   );
 };
 
-export default CategoryFilter;
+export default DepFilter;

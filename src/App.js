@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 /*top*/ import NavBar from "./components/navigationTop/NavBar";
 /*right*/ import SideNavBar from "./components/navigationSide/SideNav";
 /*filter*/ import CategoryFilter from "./components/navigationSide/CategoryFilter";
+/*filter*/ import DepFilter from "./components/navigationSide/DepFilter";
 /*footer*/ import Footer from "./components/Footer/Footer";
 
 // Pages - Admin
