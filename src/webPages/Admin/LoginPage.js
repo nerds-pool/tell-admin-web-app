@@ -108,6 +108,9 @@ const LoginPage = () => {
       await dispatchToken(setTokens(signToken, refToken));
       await dispatchUser(setUser(user));
 
+      localStorage.setItem("signToken", signToken);
+      localStorage.setItem("refToken", refToken);
+
       history.push("/");
     } catch (error) {
       if (error.response && error.response.status === 400) {

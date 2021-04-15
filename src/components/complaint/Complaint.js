@@ -12,11 +12,11 @@ import bicyleImg from "./Bicycle.png";
 // import custom COLOR library
 import { COLOR } from "../../theme/Color";
 
-
 function Complaint(props) {
   // render button to admin according to the complaint type
   const [complaintType, setComplaintType] = useState(props.type);
-  useEffect(() => setComplaintType(props.type));
+  useEffect(() => setComplaintType(props.type), [props.type]);
+  console.log(props.imageUrl)
 
   // description show more less
   const [showLess, setShowLess] = useState(true);
@@ -26,10 +26,10 @@ function Complaint(props) {
   const [Open, setOpen] = useState(false);
   const OpenHandle = () => {
     setOpen(true);
-  }
+  };
   const CloseHandle = () => {
     setOpen(false);
-  }
+  };
 
   const statusColor = () => {
     switch (props.status) {
@@ -61,19 +61,18 @@ function Complaint(props) {
     }
   };
 
-
   const rejectComment = () => {
-    if(props.rejDesc != null){
-      return(
+    if (props.rejDesc != null) {
+      return (
         <Typography className={classes.caption}>
-        Reject Comment: <span style={{ fontWeight: 'normal' }}> {props.rejDesc}</span>
-      </Typography>
-      )
-    }
-    else{
+          Reject Comment:{" "}
+          <span style={{ fontWeight: "normal" }}> {props.rejDesc}</span>
+        </Typography>
+      );
+    } else {
       return "";
     }
-  }
+  };
 
   const renderButtons = () => {
     if (complaintType === "Processing")
@@ -96,7 +95,7 @@ function Complaint(props) {
           />
         </React.Fragment>
       );
-  }
+  };
 
   const classes = useStyles();
   return (
@@ -115,7 +114,12 @@ function Complaint(props) {
             <Typography variant="h4" className={classes.heading}>
               {props.title}{" "}
             </Typography>
-            <img className={classes.media} src={bicyleImg} alt="" />
+            {/* <img className={classes.media} src={bicyleImg} alt="" /> */}
+            <img
+              className={classes.media}
+              src={`https://tell-lk/.netlify/functions/api/file/${props.imageUrl}`}
+              alt="Complaint"
+            />
             <Typography>
               {showLess ? `${desc.slice(0, 70)}...` : desc}
             </Typography>
@@ -142,12 +146,10 @@ function Complaint(props) {
         <CardContent className={classes.check}>{renderButtons()}</CardContent>
       </Card>
     </div>
-
-  )
+  );
 }
 
-export default Complaint
-
+export default Complaint;
 
 // styles
 const useStyles = makeStyles((theme) => ({
@@ -196,8 +198,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dept: {
     // color: "red",
-    textDecoration: 'underline'
-
+    textDecoration: "underline",
   },
 
   media: {
