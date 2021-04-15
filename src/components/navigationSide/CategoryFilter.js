@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     display: "flex",
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(7),
     justifyContent: "center",
   },
   container: {

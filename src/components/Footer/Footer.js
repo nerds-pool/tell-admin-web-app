@@ -84,7 +84,7 @@ function Footer() {
       <Grid container spacing={3}>
         <Grid item xs>
           <Typography className={classes.Typography} variant="outlined">
-            <EmailIcon></EmailIcon> &nbsp; suchithdevfdo@gmail.com
+            <EmailIcon /> &nbsp; admin@tell-lk.com
           </Typography>
         </Grid>
         <Grid item xs>

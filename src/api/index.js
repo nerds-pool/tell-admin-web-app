@@ -50,6 +50,14 @@ const api = {
   get: {
     allComplaints: () => http.get("/complaints/get/admin"),
     allComplaintsByStatus: () => http.get("/complaints/get/admin/status"),
+    complaintById: (complaintId) =>
+      http.get(`/complaints/get/one/${complaintId}`),
+    complaintByCategory: (categoryId) =>
+      http.get(`/complaints/get/cat/${categoryId}`),
+  },
+  delete: {
+    complaintById: (complaintId) =>
+      http.delete(`/complaints/rm/${complaintId}`),
   },
 };
 

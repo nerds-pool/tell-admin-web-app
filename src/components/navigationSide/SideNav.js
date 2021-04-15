@@ -13,6 +13,7 @@ const useStyle = makeStyles((theme) => ({
   },
   heading: {
     width: "80%",
+    marginBottom: theme.spacing(4)
   },
   links: {
     display: "flex",
@@ -24,11 +25,10 @@ const useStyle = makeStyles((theme) => ({
     textDecoration: "none",
     width: "100%",
     color: "black",
-    margin: "8px",
+    // margin: "8px",
     paddingTop: "10px",
 
     fontWeight: "bold",
-    // width:'100%',
     "&:hover": {
       textDecoration: "underline 2px solid #8E0D37",
       borderRadius: "5px",
@@ -44,7 +44,7 @@ const useStyle = makeStyles((theme) => ({
     },
   },
   list: {
-    marginLeft: "25px",
+    paddingLeft: "20px",
     fontWeight: "normal",
   },
 }));
@@ -74,28 +74,28 @@ function SideNav() {
           component={Link}
           to="/openList"
         >
-          Open List
+          Accepted
         </Typography>
         <Typography
           className={`${classes.link} ${classes.list}`}
           component={Link}
           to="/progressList"
         >
-          Progress List
+          Ongoing
         </Typography>
         <Typography
           className={`${classes.link} ${classes.list}`}
           component={Link}
           to="/closedList"
         >
-          Closed List
+          Closed
         </Typography>
         <Typography
           className={`${classes.link} ${classes.list}`}
           component={Link}
           to="/rejectedList"
         >
-          Rejected List
+          Rejected
         </Typography>
         <Typography className={classes.link} component={Link} to="/settings">
           Add Authority User

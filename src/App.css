@@ -15,7 +15,7 @@
 }
 
 .body {
-  height: 91.5%;
+  height: 100%;
   width: 100%;
   display: flex;
   overflow-y: scroll;
@@ -24,7 +24,7 @@
 
 /* components inside body */
 .sideNav {
-  width: 15.1%;
+  width: 15%;
   position: fixed;
   background-color: #edede8;
   height: 100%;
@@ -33,8 +33,8 @@
 
 .comnfot {
   /* position: fixed; */
-  margin-left: 15.2%;
-  width: 65%;
+  margin-left: 15%;
+  width: 71%;
   /* margin-right: 100.2%; */
 }
 
@@ -45,11 +45,12 @@
 }
 
 .filter {
-  width: 20%;
+  width: 15%;
   position: fixed;
-  height: 100vh;
-  left: 79%;
   background-color: #edede8;
+  height: 100%;
+  /* left: 79%; */
+  right: 0
 }
 
 .footer {
