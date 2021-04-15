@@ -1,16 +1,4 @@
-/*import React from "react";
-
-function SigninPage() {
-  return (
-    <div>
-      <h1>Im in SignIn Page </h1>
-    </div>
-  );
-}
-
-export default SigninPage;*/
-
-import React from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -23,6 +11,12 @@ import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import api from "../../api";
+import { GlobalContext } from "../../context";
+import { setUser, setTokens } from "../../context/actions";
+import { useHistory } from "react-router-dom";
+
+const FORM_UPDATE = "FORM_UPDATE";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,8 +38,89 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case FORM_UPDATE:
+      return {
+        ...state,
+        inputValues: {
+          ...state.inputValues,
+          [action.payload.key]: action.payload.value,
+        },
+      };
+    default:
+      return state;
+  }
+};
+
 const LoginPage = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const { userState, tokenState, dispatchUser, dispatchToken } = useContext(
+    GlobalContext
+  );
+  const [errorMsg, setErrorMsg] = useState("");
+  const [formState, formDispatch] = useReducer(formReducer, {
+    inputValues: {
+      password: "",
+      username: "",
+    },
+    validationValues: {
+      password: "",
+      username: "",
+    },
+  });
+
+  useEffect(() => {
+    console.log("User from context", userState);
+    console.log("Token State", tokenState);
+  }, [userState, tokenState]);
+
+  const handleInput = (e) => {
+    formDispatch({
+      type: FORM_UPDATE,
+      payload: {
+        key: e.target.id,
+        value: e.target.value,
+      },
+    });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorMsg("");
+    try {
+      const signinBody = {
+        username: formState.inputValues.username,
+        password: formState.inputValues.password,
+      };
+      const response = await api.post.signIn(signinBody);
+      console.log("Admin doc", response.data.result);
+
+      const user = {
+        id: response.data.result.id,
+        role: response.data.result.role,
+      };
+      const signToken = response.data.result.signToken;
+      const refToken = response.data.result.refToken;
+
+      await dispatchToken(setTokens(signToken, refToken));
+      await dispatchUser(setUser(user));
+
+      history.push("/");
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setErrorMsg("Invalid username or password");
+      }
+      if (error.response && error.response.status === 500) {
+        alert(
+          "Oops!",
+          "Something went wrong with our servers :( Try again later..."
+        );
+      }
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -57,17 +132,18 @@ const LoginPage = () => {
         <Typography component="h1" variant="h5">
           Log In
         </Typography>
+        <Typography color="error">{errorMsg}</Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
+            id="username"
+            label="Username"
+            name="username"
+            value={formState.inputValues.username}
+            onChange={handleInput}
           />
           <TextField
             variant="outlined"
@@ -78,7 +154,8 @@ const LoginPage = () => {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
+            value={formState.inputValues.password}
+            onChange={handleInput}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -90,6 +167,7 @@ const LoginPage = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleLogin}
           >
             Sign In
           </Button>
