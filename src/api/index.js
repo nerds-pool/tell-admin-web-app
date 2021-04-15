@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://localhost:8000/.netlify/functions/api",
+  baseURL: "http://localhost:9000/.netlify/functions/api",
   timeout: 10000,
 });
 
@@ -45,9 +45,11 @@ http.interceptors.response.use(
 const api = {
   post: {
     signIn: (body) => http.post("/auth/pro/signin", body),
+    newAuthorityAccount: (body) => http.post("/auth/pro/new", body),
   },
   get: {
-    allPosts: (userId) => http.get(`/complaints/get/admin/${userId}`),
+    allComplaints: () => http.get("/complaints/get/admin"),
+    allComplaintsByStatus: () => http.get("/complaints/get/admin/status"),
   },
 };
 

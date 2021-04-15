@@ -1,26 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import ReportBar from "../../components/ReportBar/ReportBar";
 import Complaint from "../../components/complaint/Complaint";
 import { Grid } from "@material-ui/core";
 import api from "../../api";
-import { GlobalContext } from "../../context";
 
 function HomePageAdmin() {
-  const { userState } = useContext(GlobalContext);
   const [complaints, setComplaints] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const userId = userState.data.id;
-        const response = await api.get.allPosts(userId);
+        const response = await api.get.allComplaints();
         // console.table("All complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
         console.error("Error at home page", error.message);
       }
     })();
-  }, [userState]);
+  }, []);
 
   return (
     <div>
