@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
+import {
+  Home,
+  AccountCircle,
+  PersonAdd,
+  Help,
+  ExitToApp,
+} from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { COLOR } from "../../theme/Color";
 
@@ -40,25 +47,32 @@ function NavBar() {
 
           <div className={classes.menu}>
             <Link to="/">
-              <Button className={classes.button} disableRipple>
-                Home
-              </Button>
+              <IconButton className={classes.button} disableRipple>
+                <Home />
+              </IconButton>
             </Link>
             <Link to="/help">
-              <Button className={classes.button} disableRipple>
-                Help
-              </Button>
+              <IconButton className={classes.button} disableRipple>
+                <Help />
+              </IconButton>
+            </Link>
+            <Link to="/create">
+              <IconButton
+                className={classes.button}
+                disableRipple
+                color="inherit"
+              >
+                <PersonAdd />
+              </IconButton>
             </Link>
             <Link to="/profile">
-              <Button className={classes.button} disableRipple>
-                Profile
-              </Button>
+              <IconButton className={classes.button} disableRipple>
+                <AccountCircle />
+              </IconButton>
             </Link>
-            {/* <Link to="/login">
-              <Button className={classes.button} disableRipple color="inherit">
-                Login
-              </Button>
-            </Link> */}
+            <IconButton className={classes.button} disableRipple>
+              <ExitToApp />
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>

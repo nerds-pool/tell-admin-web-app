@@ -13,6 +13,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { COLOR } from "../../theme/Color";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -37,18 +38,16 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
   },
   Button: {
-    backgroundColor: "#b71c1c",
-    width: "100%",
-    "&:active": {
-      backgroundColor: "#b71c1c",
-    },
-    "&:focus": {
+    backgroundColor: COLOR.navCol,
+    color: theme.palette.common.white,
+    width: "80%",
+    "&:hover": {
       backgroundColor: "#b71c1c",
     },
   },
   Select: {
     marginTop: theme.spacing(3),
-    width: "100%",
+    width: "80%",
   },
 }));
 
@@ -111,9 +110,8 @@ const CategoryFilter = () => {
         <Button
           className={classes.Button}
           variant="contained"
-          color="secondary"
         >
-          Filter
+          Save
         </Button>
       </Box>
     </div>

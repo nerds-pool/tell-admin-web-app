@@ -97,9 +97,9 @@ function SideNav() {
         >
           Rejected
         </Typography>
-        <Typography className={classes.link} component={Link} to="/settings">
+        {/* <Typography className={classes.link} component={Link} to="/settings">
           Add Authority User
-        </Typography>
+        </Typography> */}
       </CardContent>
     </div>
   );

@@ -1,28 +1,74 @@
 import React, { useState, useEffect } from "react";
 import ReportBar from "../../components/ReportBar/ReportBar";
 import Complaint from "../../components/complaint/Complaint";
-import { Grid } from "@material-ui/core";
+import { Grid, Container, Typography } from "@material-ui/core";
+import { BubbleChart } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
 import api from "../../api";
+import { COLOR } from "../../theme/Color";
+
+const useStyles = makeStyles((theme) => ({
+  marginTop: {
+    marginTop: theme.spacing(5),
+  },
+  loading: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    height: "100vh",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadIcon: {
+    fontSize: 100,
+    color: COLOR.navCol,
+  },
+  loadText: {
+    color: COLOR.navCol,
+  },
+}));
 
 function HomePageAdmin() {
+  const classes = useStyles();
+
   const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const response = await api.get.allComplaints();
         // console.table("All complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
         console.error("Error at home page", error.message);
+      } finally {
+        setLoading(false);
       }
     })();
   }, []);
 
+  if (loading)
+    return (
+      <Container component="main" maxWidth="xs" className={classes.loading}>
+        <BubbleChart fontSize="large" className={classes.loadIcon} />
+        <Typography variant="h3" className={classes.loadText}>
+          Loading...
+        </Typography>
+      </Container>
+    );
+
   return (
-    <div>
+    <div className={classes.marginTop}>
       <ReportBar />
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        className={classes.marginTop}
+      >
         {complaints.map((val, key) => {
           if (val.status === "open") {
             return (

@@ -68,7 +68,7 @@ const App = () => {
                 <PrivateRoute auth={auth} path="/rejectedList">
                   <RejectedListPage />
                 </PrivateRoute>
-                <PrivateRoute auth={auth} path="/settings">
+                <PrivateRoute auth={auth} path="/create">
                   <AddUser />
                 </PrivateRoute>
                 <PrivateRoute auth={auth} path="/help">

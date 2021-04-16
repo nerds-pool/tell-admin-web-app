@@ -54,6 +54,7 @@ const api = {
       http.get(`/complaints/get/one/${complaintId}`),
     complaintByCategory: (categoryId) =>
       http.get(`/complaints/get/cat/${categoryId}`),
+    profile: (userId) => http.get(`/profile/pro/${userId}`),
   },
   delete: {
     complaintById: (complaintId) =>

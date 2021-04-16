@@ -1,45 +1,23 @@
-import React from "react";
+import React, { useReducer, useState } from "react";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from "@material-ui/core/Snackbar";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
+import { COLOR } from "../../theme/Color";
+import api from "../../api";
 
-// Card
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+const FORM_UPDATE = "FORM_UPDATE";
+const FORM_RESET = "FORM_RESET";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "70vh",
-  },
-  cardContainer: {
-    margin: "20px",
-    height: "700px",
-  },
-  card: {
-    marginBottom: "20px",
-    width: "50%",
-    border: "3px solid blue",
-  },
-  Cardlist: {
-    content: "justify",
-    /*margin: "auto",*/
-    width: "50%",
-    /* border: "3px solid blue",*/
-    padding: "10px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  pos: {
-    marginBottom: "20px",
+    padding: "20px 20%",
+    paddingTop: theme.spacing(3),
   },
   paper: {
     padding: "5px",
@@ -48,13 +26,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
-
     marginTop: theme.spacing(1),
     padding: "2px",
     paddingBottom: "2px",
@@ -62,42 +35,130 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#b71c1c",
+    backgroundColor: COLOR.navCol,
+    height: 50,
+    "&:hover": {
+      backgroundColor: COLOR.navCol,
+    },
   },
-  FormControl: {
-    width: "1000px",
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
+  snackBar: {
+    height: 60,
   },
 }));
+
+const fromReducer = (state, action) => {
+  switch (action.type) {
+    case FORM_UPDATE:
+      return {
+        ...state,
+        inputValues: {
+          ...state.inputValues,
+          [action.payload.id]: action.payload.value,
+        },
+      };
+    case FORM_RESET:
+      return {
+        ...state,
+        inputValues: {
+          ...state.inputValues,
+          authorityName: "",
+          username: "",
+          email: "",
+          contact: "",
+          password: "",
+        },
+      };
+    default:
+      return state;
+  }
+};
 
 const AddUser = () => {
   const classes = useStyles();
 
-  const [Authority, setAuthority] = React.useState("");
+  const [snackBarProps, setSnackBarProps] = useState({
+    isOpen: false,
+    message: "",
+  });
+  const [formState, dispatchForm] = useReducer(fromReducer, {
+    inputValues: {
+      authorityName: "",
+      username: "",
+      email: "",
+      contact: "",
+      password: "",
+    },
+  });
 
-  const handleChange = (event) => {
-    setAuthority(event.target.value);
+  React.useEffect(() => {
+    console.dir(formState);
+  }, [formState]);
+
+  const handleInput = (e) => {
+    dispatchForm({
+      type: FORM_UPDATE,
+      payload: {
+        id: e.target.id,
+        value: e.target.value,
+      },
+    });
+  };
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    try {
+      const {
+        authorityName,
+        username,
+        email,
+        contact,
+        password,
+      } = formState.inputValues;
+      const body = {
+        authorityName,
+        username,
+        email,
+        contact,
+        password,
+      };
+      const response = await api.post.newAuthorityAccount(body);
+      if (!response.data.success)
+        throw new Error("Failed to create new authority");
+      setSnackBarProps((prevState) => ({
+        ...prevState,
+        isOpen: true,
+        message: `${authorityName} account has been created successfully`,
+      }));
+    } catch (error) {
+      console.error("Error at ad user", error.response ?? error.message);
+      setSnackBarProps((prevState) => ({
+        ...prevState,
+        isOpen: true,
+        message: `Failed to create new authority. Please try again...`,
+      }));
+    }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackBarProps((prevState) => ({
+      ...prevState,
+      isOpen: false,
+      message: "",
+    }));
   };
 
   return (
     <div className={classes.cardContainer}>
       <Grid container component="main" className={classes.root}>
-        <CssBaseline />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item sm={12} md={12} component={Paper} elevation={3} square>
           <Grid item xs={false} sm={4} md={7} className={classes.grid} />
           <div className={classes.paper}>
             <Typography component="h1" variant="h5">
-              Create User
+              Create New Authority Account
             </Typography>
             <form className={classes.form} noValidate>
               <TextField
@@ -106,11 +167,10 @@ const AddUser = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="Fname"
-                label="First Name"
-                name="Fname"
-                autoComplete="First Name"
-                autoFocus
+                id="authorityName"
+                label="Authority Name"
+                value={formState.authorityName}
+                onChange={handleInput}
               />
               <TextField
                 className={classes.fields}
@@ -118,27 +178,11 @@ const AddUser = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="Lname"
-                label="Last Name"
-                name="Lname"
-                autoComplete="Last Name"
-                autoFocus
+                id="username"
+                label="Username"
+                value={formState.username}
+                onChange={handleInput}
               />
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Authority</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={Authority}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}></MenuItem>
-                  <MenuItem value={10}>Authority 1</MenuItem>
-                  <MenuItem value={20}>Authority 2</MenuItem>
-                  <MenuItem value={30}>Authority 3</MenuItem>
-                </Select>
-              </FormControl>
-
               <TextField
                 className={classes.fields}
                 variant="outlined"
@@ -147,9 +191,8 @@ const AddUser = () => {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
+                value={formState.email}
+                onChange={handleInput}
               />
               <TextField
                 className={classes.fields}
@@ -157,11 +200,10 @@ const AddUser = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="UserId"
-                label="User ID"
-                name="UserId"
-                autoComplete="User ID"
-                autoFocus
+                id="contact"
+                label="Contact Number"
+                value={formState.contact}
+                onChange={handleInput}
               />
               <TextField
                 className={classes.fields}
@@ -169,10 +211,11 @@ const AddUser = () => {
                 margin="normal"
                 required
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
                 id="password"
+                value={formState.password}
+                onChange={handleInput}
               />
               <Button
                 type="submit"
@@ -180,24 +223,36 @@ const AddUser = () => {
                 variant="contained"
                 color="secondary"
                 className={classes.submit}
+                onClick={handleCreate}
               >
-                Create User
+                Create
               </Button>
             </form>
+            <Snackbar
+              className={classes.snackBar}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              open={snackBarProps.isOpen}
+              autoHideDuration={6000}
+              onClose={handleClose}
+              message={snackBarProps.message}
+              action={
+                <React.Fragment>
+                  <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={handleClose}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </React.Fragment>
+              }
+            />
           </div>
         </Grid>
-        <div className={classes.Cardlist}>
-          <Card className={classes.card}>
-            <CardContent className={classes.pos}>
-              <Typography color="textPrimary">Police Dept.</Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.card}>
-            <CardContent className={classes.pos}>
-              <Typography color="textPrimary">RDA</Typography>
-            </CardContent>
-          </Card>
-        </div>
       </Grid>
     </div>
   );
