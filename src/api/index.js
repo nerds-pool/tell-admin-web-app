@@ -48,14 +48,20 @@ const api = {
     newAuthorityAccount: (body) => http.post("/auth/pro/new", body),
   },
   get: {
-    allComplaints: () => http.get("/complaints/get/admin"),
-    complaintsByStatus: (status) =>
-      http.get(`/complaints/get/admin/status?q=${status}`),
+    allComplaints: () => http.get(`/complaints/get/all/admin`),
+    complaintsByFilter: (status, category, authority, date) =>
+      http.get(
+        `/complaints/get/admin?stat=${status}&cat=${category}&auth=${authority}&date=${date}`
+      ),
     complaintById: (complaintId) =>
       http.get(`/complaints/get/one/${complaintId}`),
     complaintByCategory: (categoryId) =>
       http.get(`/complaints/get/cat/${categoryId}`),
     profile: (userId) => http.get(`/profile/pro/${userId}`),
+  },
+  patch: {
+    complaintStatusAsDone: (body) =>
+      http.patch("/complaints/update/status", body),
   },
   delete: {
     complaintById: (complaintId) =>

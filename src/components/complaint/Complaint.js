@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from "react";
-//import  material UI components
+import React, { useState, useEffect, useContext } from "react";
 import { Card, CardContent, Button, Typography } from "@material-ui/core";
-// import icons
 import { ArrowDropUp } from "@material-ui/icons";
-//import Alert
-import Alert from "../alertBox/Alert";
-// import makeStyles
 import { makeStyles } from "@material-ui/core/styles";
-//import image for testing
+import Alert from "../alertBox/Alert";
 import bicyleImg from "./Bicycle.png";
-// import custom COLOR library
 import { COLOR } from "../../theme/Color";
+import api from "../../api";
+import { GlobalContext } from "../../context";
 
 function Complaint(props) {
+  const { userState } = useContext(GlobalContext);
+
   // render button to admin according to the complaint type
   const [complaintType, setComplaintType] = useState(props.type);
   useEffect(() => setComplaintType(props.type), [props.type]);
-  console.log(props.imageUrl)
+  console.log(props.imageUrl);
 
   // description show more less
   const [showLess, setShowLess] = useState(true);
@@ -24,28 +22,50 @@ function Complaint(props) {
 
   // open close dialog box
   const [Open, setOpen] = useState(false);
-  const OpenHandle = () => {
+
+  const handleOpenAlert = (e) => {
+    e.preventDefault();
     setOpen(true);
   };
-  const CloseHandle = () => {
+  const handleCloseAlert = () => {
     setOpen(false);
+  };
+
+  const handleConfirmAlert = async () => {
+    console.log("Confirmed job", props.id);
+    try {
+      const body = {
+        userId: userState.data.id,
+        complaintId: props.id,
+        reason: "none",
+        complaintState: "confirmed",
+      };
+      await api.patch.complaintStatusAsDone(body);
+    } catch (error) {
+      console.log(
+        "Error at complaint mark done",
+        error.response ?? error.message
+      );
+    } finally {
+      handleCloseAlert();
+    }
   };
 
   const statusColor = () => {
     switch (props.status) {
-      case "Accepted":
+      case "accepted":
         return (
           <Typography className={classes.caption}>
             Status: <span style={{ color: "#678d58" }}>{props.status}</span>
           </Typography>
         );
-      case "Processing":
+      case "processing":
         return (
           <Typography className={classes.caption}>
             Status: <span style={{ color: "#0077b6" }}>{props.status}</span>
           </Typography>
         );
-      case "Rejected":
+      case "rejected":
         return (
           <Typography className={classes.caption}>
             Status: <span style={{ color: "red" }}>{props.status}</span>
@@ -75,7 +95,7 @@ function Complaint(props) {
   };
 
   const renderButtons = () => {
-    if (complaintType === "Processing")
+    if (complaintType === "processing")
       return (
         <React.Fragment>
           <Button
@@ -83,13 +103,14 @@ function Complaint(props) {
             variant="contained"
             color="secondary"
             className={classes.btn}
-            onClick={OpenHandle}
+            onClick={handleOpenAlert}
           >
             Confirm Job Done
           </Button>
           <Alert
             open={Open}
-            onClose={CloseHandle}
+            onClose={handleCloseAlert}
+            onConfirm={handleConfirmAlert}
             Type={props.status}
             title={props.title}
           />
@@ -114,12 +135,12 @@ function Complaint(props) {
             <Typography variant="h4" className={classes.heading}>
               {props.title}{" "}
             </Typography>
-            {/* <img className={classes.media} src={bicyleImg} alt="" /> */}
-            <img
+            <img className={classes.media} src={bicyleImg} alt="" />
+            {/* <img
               className={classes.media}
               src={`https://tell-lk/.netlify/functions/api/file/${props.imageUrl}`}
               alt="Complaint"
-            />
+            /> */}
             <Typography>
               {showLess ? `${desc.slice(0, 70)}...` : desc}
             </Typography>
@@ -155,16 +176,15 @@ export default Complaint;
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: "20px",
-    width: "700px",
-    height: "100%",
+    width: "100%",
+    // height: "100%",
     padding: "0",
     backgroundColor: "#F5EBEB",
-    // maxWidth: "700px",
     // minWidth: "490px",
   },
   content: {
     display: "flex",
-    height: "100%",
+    // height: "100%",
     margin: "0",
     padding: "0",
   },
@@ -181,10 +201,8 @@ const useStyles = makeStyles((theme) => ({
   },
   details: {
     width: "90%",
-    // height:'100%'
   },
   heading: {
-    // fontWeight: "bold",
     marginBottom: "10px",
   },
   caption: {
@@ -197,7 +215,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "10px",
   },
   dept: {
-    // color: "red",
     textDecoration: "underline",
   },
 
@@ -209,14 +226,15 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "10px",
   },
   check: {
-    width: "200px",
-    height: "40px",
-    marginLeft: "110px",
+    width: "100%",
+    // height: "40px",
+    // marginLeft: "110px",
     display: "flex",
-    padding: "0",
+    paddingLeft: "11%",
     marginBottom: "0",
   },
   btn: {
-    margin: "2px",
+    marginBottom: 10,
+    height: 30,
   },
 }));

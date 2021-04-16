@@ -6,14 +6,16 @@ import {
     Typography,
 } from "@material-ui/core"
 import {makeStyles} from "@material-ui/core/styles"
-import {COLOR} from "../../theme/Color"
+// import {COLOR} from "../../theme/Color"
+
 const useStyles = makeStyles((theme)=>({
     reportBar:{
         display: 'flex',
-        width: '600px',
+        width: '100%',
         height: '100px',
         // border: `2px solid ${COLOR.redColour}`,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
+        alignItems: "center",
         boxShadow: '2.5px 2.5px 2.5px 2.5px   rgba(0, 0, 0, .2)'
     },
     dataContain:{

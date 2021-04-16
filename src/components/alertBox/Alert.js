@@ -66,7 +66,7 @@ function Alert(props) {
   const classes = useStyles();
 
   const DisplayAlert = () => {
-    if (AlertType === "Open" && BtnType === "Confirm")
+    if (AlertType === "open" && BtnType === "Confirm")
       return (
         // Click Accept
         <Dialog
@@ -104,7 +104,7 @@ function Alert(props) {
         </Dialog>
       );
 
-    if (AlertType === "Open" && BtnType === "Reject")
+    if (AlertType === "open" && BtnType === "Reject")
       return (
         // Click Accept
         <Dialog
@@ -152,7 +152,7 @@ function Alert(props) {
         </Dialog>
       );
 
-    if (AlertType === "Accepted")
+    if (AlertType === "accepted")
       return (
         <Dialog
           open={props.open}
@@ -189,7 +189,7 @@ function Alert(props) {
         </Dialog>
       );
 
-    if (AlertType === "Processing")
+    if (AlertType === "processing")
       return (
         <Dialog
           open={props.open}
@@ -202,14 +202,14 @@ function Alert(props) {
               <HelpOutline className={classes.Icon} />
             </DialogContent>
             <DialogTitle id="form-dialog-title">
-              Confirm your request!
+              Confirm this complaint as done?
             </DialogTitle>
             <DialogContentText>{`Complaint: ${props.title}`}</DialogContentText>
 
             <DialogActions className={classes.buttons}>
               <Button
                 fullWidth
-                onClick={props.onClose}
+                onClick={props.onConfirm}
                 className={classes.confirm}
               >
                 Confirm

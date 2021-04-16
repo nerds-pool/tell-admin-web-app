@@ -35,27 +35,27 @@ const useStyles = makeStyles((theme) => ({
   Button: {
     backgroundColor: COLOR.navCol,
     color: theme.palette.common.white,
-    width: "80%",
+    width: "90%",
     "&:hover": {
       backgroundColor: "#b71c1c",
     },
   },
   Select: {
     marginTop: theme.spacing(3),
-    width: "80%",
+    width: "90%",
   },
 }));
 
 const Filter = ({ onFilter, onReset }) => {
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateChange = (date, value) => {
     setSelectedDate(date);
     const e = {
       target: {
         id: "date",
-        value: new Date(value).toISOString(),
+        value: new Date(date).toISOString(),
       },
     };
     onFilter(e);

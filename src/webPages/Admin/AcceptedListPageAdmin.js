@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReportBar from "../../components/ReportBar/ReportBar";
 import Complaint from "../../components/complaint/Complaint";
 import { Grid, Container, Typography } from "@material-ui/core";
@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { BubbleChart } from "@material-ui/icons";
 import api from "../../api";
 import { COLOR } from "../../theme/Color";
+import { GlobalContext } from "../../context";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function OpenListPageAdmin() {
   const classes = useStyles();
+  const { filterState } = useContext(GlobalContext);
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +39,12 @@ function OpenListPageAdmin() {
     (async () => {
       try {
         setLoading(true);
-        const response = await api.get.complaintsByStatus("accepted");
+        const response = await api.get.complaintsByFilter(
+          "accepted",
+          filterState.category,
+          filterState.authority,
+          filterState.date
+        );
         console.table("All accepted complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
@@ -46,7 +53,7 @@ function OpenListPageAdmin() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [filterState]);
 
   if (loading)
     return (
@@ -62,7 +69,7 @@ function OpenListPageAdmin() {
     <div className={classes.marginTop}>
       <ReportBar />
       <Grid
-        container
+        // container
         direction="row"
         justify="center"
         alignItems="center"

@@ -27,7 +27,7 @@ const filter = (state, action) => {
         ...state,
         category: "all",
         authority: "all",
-        date: null,
+        date: "2021-01-01T00:00:00.000Z",
       };
     default:
       return state;

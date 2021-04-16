@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReportBar from "../../components/ReportBar/ReportBar";
 import Complaint from "../../components/complaint/Complaint";
 import { Grid, Container, Typography } from "@material-ui/core";
@@ -6,10 +6,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { BubbleChart } from "@material-ui/icons";
 import api from "../../api";
 import { COLOR } from "../../theme/Color";
+import { GlobalContext } from "../../context";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
     marginTop: theme.spacing(4),
+    width: "100%",
   },
   loading: {
     display: "flex",
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProgressListPageAdmin() {
   const classes = useStyles();
+  const { filterState } = useContext(GlobalContext);
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +40,12 @@ function ProgressListPageAdmin() {
     (async () => {
       try {
         setLoading(true);
-        const response = await api.get.complaintsByStatus("processing");
+        const response = await api.get.complaintsByFilter(
+          "processing",
+          filterState.category,
+          filterState.authority,
+          filterState.date
+        );
         console.table("All processing complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
@@ -46,7 +54,7 @@ function ProgressListPageAdmin() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [filterState]);
 
   if (loading)
     return (
@@ -62,7 +70,7 @@ function ProgressListPageAdmin() {
     <div className={classes.marginTop}>
       <ReportBar />
       <Grid
-        container
+        // container
         direction="row"
         justify="center"
         alignItems="center"
@@ -73,6 +81,7 @@ function ProgressListPageAdmin() {
             val.status === "processing" ? (
               <Complaint
                 key={val._id}
+                id={val._id}
                 title={val.title}
                 desc={val.content}
                 dept={"RDA"}
