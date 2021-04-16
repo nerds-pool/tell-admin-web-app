@@ -71,24 +71,23 @@ const RejectedListAdmin = () => {
         alignItems="center"
         className={classes.marginTop}
       >
-        {ComplaintData.map((val, key) => {
-          if (val.status === "Rejected") {
-            return (
+        {complaints &&
+          complaints.map((val, key) =>
+            val.status === "rejected" ? (
               <Complaint
-                key={val.id}
+                key={val._id}
                 title={val.title}
-                desc={val.description}
-                dept={val.department}
-                date={val.date}
+                desc={val.content}
+                dept={"RDA"}
+                date={`${new Date(val.createdAt).getDate()}/${
+                  new Date(val.createdAt).getMonth() + 1
+                }/${new Date(val.createdAt).getFullYear()}`}
                 status={val.status}
                 type={val.status}
-                rejDesc={val.rejDesc}
+                imageUrl={val.media}
               />
-            );
-          } else {
-            return "";
-          }
-        })}
+            ) : null
+          )}
       </Grid>
     </div>
   );

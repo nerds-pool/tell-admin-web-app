@@ -69,24 +69,23 @@ function OpenListPageAdmin() {
         alignItems="center"
         className={classes.marginTop}
       >
-        {ComplaintData.map((val, key) => {
-          if (val.status === "Accepted") {
-            return (
+        {complaints &&
+          complaints.map((val, key) =>
+            val.status === "accepted" ? (
               <Complaint
-                key={key}
+                key={val._id}
                 title={val.title}
-                desc={val.description}
-                dept={val.department}
-                date={val.date}
+                desc={val.content}
+                dept={"RDA"}
+                date={`${new Date(val.createdAt).getDate()}/${
+                  new Date(val.createdAt).getMonth() + 1
+                }/${new Date(val.createdAt).getFullYear()}`}
                 status={val.status}
                 type={val.status}
-                // img={val.img}
+                imageUrl={val.media}
               />
-            );
-          } else {
-            return "";
-          }
-        })}
+            ) : null
+          )}
       </Grid>
     </div>
   );

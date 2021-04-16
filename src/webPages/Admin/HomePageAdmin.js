@@ -69,9 +69,9 @@ function HomePageAdmin() {
         alignItems="center"
         className={classes.marginTop}
       >
-        {complaints.map((val, key) => {
-          if (val.status === "open") {
-            return (
+        {complaints &&
+          complaints.map((val, key) =>
+            val.status === "open" ? (
               <Complaint
                 key={val._id}
                 title={val.title}
@@ -84,11 +84,8 @@ function HomePageAdmin() {
                 type={val.status}
                 imageUrl={val.media}
               />
-            );
-          } else {
-            return "";
-          }
-        })}
+            ) : null
+          )}
       </Grid>
     </div>
   );

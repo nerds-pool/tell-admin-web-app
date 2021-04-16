@@ -71,23 +71,23 @@ function ClosedListPageAdmin() {
         alignItems="center"
         className={classes.marginTop}
       >
-        {ComplaintData.map((val, key) => {
-          if (val.status === "Closed") {
-            return (
+        {complaints &&
+          complaints.map((val, key) =>
+            val.status === "closed" ? (
               <Complaint
-                key={key}
+                key={val._id}
                 title={val.title}
-                desc={val.description}
-                dept={val.department}
-                date={val.date}
+                desc={val.content}
+                dept={"RDA"}
+                date={`${new Date(val.createdAt).getDate()}/${
+                  new Date(val.createdAt).getMonth() + 1
+                }/${new Date(val.createdAt).getFullYear()}`}
                 status={val.status}
                 type={val.status}
+                imageUrl={val.media}
               />
-            );
-          } else {
-            return "";
-          }
-        })}
+            ) : null
+          )}
       </Grid>
     </div>
   );
