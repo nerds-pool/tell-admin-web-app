@@ -4,7 +4,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { Button } from "@material-ui/core";
+import { Button, Box } from "@material-ui/core";
 
 //date picker
 import "date-fns";
@@ -56,9 +56,7 @@ const useStyles = makeStyles((theme) => ({
 const CategoryFilter = () => {
   const classes = useStyles();
 
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date()
-  );
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -71,7 +69,7 @@ const CategoryFilter = () => {
           <h2> &nbsp;Filter</h2>
         </InputLabel>
       </div>
-      <FormControl className={classes.formControl}>
+      <Box className={classes.formControl}>
         <Select native id="grouped-native-select" className={classes.Select}>
           <option value={null}>--Select Category--</option>
           <option value={1}>Category 1</option>
@@ -118,7 +116,7 @@ const CategoryFilter = () => {
         >
           Filter
         </Button>
-      </FormControl>
+      </Box>
     </div>
   );
 };

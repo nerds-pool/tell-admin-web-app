@@ -17,10 +17,20 @@ const useStyles = makeStyles((theme) => ({
   },
   nav: {
     display: "flex",
-    // color:'white'
+    justifyContent: "space-between",
   },
   menu: {
-    marginLeft: "75%",
+    marginRight: theme.spacing(3),
+  },
+  title: {
+    marginLeft: theme.spacing(1),
+  },
+  button: {
+    color: theme.palette.common.white,
+    "&:hover": {
+      backgroundColor: theme.palette.common.white,
+      color: COLOR.navCol,
+    },
   },
 }));
 function NavBar() {
@@ -29,27 +39,33 @@ function NavBar() {
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.nav}>
-          <div className="title">
-            <Typography variant="h6" className={classes.title}>
-              Tell
+          <div className={classes.title}>
+            <Typography variant="h6">
+              Tell - Public Complaint Management System
             </Typography>
           </div>
 
           <div className={classes.menu}>
             <Link to="/">
-              <Button disableRipple>Home</Button>
-            </Link>
-            <Link to="/help">
-              <Button disableRipple>Help</Button>
-            </Link>
-            <Link to="/profile">
-              <Button disableRipple>Profile</Button>
-            </Link>
-            <Link to="/login">
-              <Button disableRipple color="inherit">
-                Login
+              <Button className={classes.button} disableRipple>
+                Home
               </Button>
             </Link>
+            <Link to="/help">
+              <Button className={classes.button} disableRipple>
+                Help
+              </Button>
+            </Link>
+            <Link to="/profile">
+              <Button className={classes.button} disableRipple>
+                Profile
+              </Button>
+            </Link>
+            {/* <Link to="/login">
+              <Button className={classes.button} disableRipple color="inherit">
+                Login
+              </Button>
+            </Link> */}
           </div>
         </Toolbar>
       </AppBar>

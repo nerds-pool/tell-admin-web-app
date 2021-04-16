@@ -5,6 +5,7 @@ const userStore = {
       id: "",
       role: null,
     },
+    auth: false,
   },
 };
 

@@ -1,4 +1,4 @@
-import { SET_USER } from "../actions/action.types";
+import { SET_AUTH, SET_USER } from "../actions/action.types";
 
 const user = (state, action) => {
   switch (action.type) {
@@ -9,6 +9,11 @@ const user = (state, action) => {
           ...state.data,
           ...action.payload,
         },
+      };
+    case SET_AUTH:
+      return {
+        ...state,
+        auth: action.payload,
       };
     default:
       return state;

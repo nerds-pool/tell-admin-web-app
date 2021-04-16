@@ -13,21 +13,22 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import api from "../../api";
 import { GlobalContext } from "../../context";
-import { setUser, setTokens } from "../../context/actions";
+import { setUser, setAuth, setTokens } from "../../context/actions";
 import { useHistory } from "react-router-dom";
+import { COLOR } from "../../theme/Color";
 
 const FORM_UPDATE = "FORM_UPDATE";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.success.main,
+    margin: theme.spacing(2),
+    backgroundColor: COLOR.navCol,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -35,7 +36,15 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    height: 50,
+    backgroundColor: COLOR.navCol,
+    "&:hover": {
+      backgroundColor: COLOR.navCol,
+    },
   },
+  error: {
+    marginTop: theme.spacing(2)
+  }
 }));
 
 const formReducer = (state, action) => {
@@ -107,6 +116,7 @@ const LoginPage = () => {
 
       await dispatchToken(setTokens(signToken, refToken));
       await dispatchUser(setUser(user));
+      await dispatchUser(setAuth(true));
 
       localStorage.setItem("signToken", signToken);
       localStorage.setItem("refToken", refToken);
@@ -133,9 +143,9 @@ const LoginPage = () => {
           <AssignmentIndIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Log In
+          Admin Log In
         </Typography>
-        <Typography color="error">{errorMsg}</Typography>
+        <Typography color="error" className={classes.error}>{errorMsg}</Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -160,10 +170,6 @@ const LoginPage = () => {
             value={formState.inputValues.password}
             onChange={handleInput}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -172,20 +178,8 @@ const LoginPage = () => {
             className={classes.submit}
             onClick={handleLogin}
           >
-            Sign In
+            Log In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
     </Container>

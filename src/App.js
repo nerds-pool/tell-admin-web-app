@@ -1,11 +1,13 @@
 import "./App.css";
+import React, { useState, useEffect, useContext } from "react";
 import { Switch, Route } from "react-router-dom";
+import PrivateRoute from "./components/Route/PrivateRoute";
 
 // navBar
-/*top*/ import NavBar from "./components/navigationTop/NavBar";
-/*right*/ import SideNavBar from "./components/navigationSide/SideNav";
-/*filter*/ import CategoryFilter from "./components/navigationSide/CategoryFilter";
-/*footer*/ import Footer from "./components/Footer/Footer";
+import NavBar from "./components/navigationTop/NavBar";
+import SideNavBar from "./components/navigationSide/SideNav";
+import CategoryFilter from "./components/navigationSide/CategoryFilter";
+import Footer from "./components/Footer/Footer";
 
 // Pages - Admin
 import AdminHomePage from "./webPages/Admin/HomePageAdmin";
@@ -17,8 +19,21 @@ import AddUser from "./webPages/Admin/AddUser";
 import HelpPage from "./webPages/Admin/HelpPage";
 import LoginPage from "./webPages/Admin/LoginPage";
 import ProfilePage from "./webPages/Admin/ProfilePage";
+import { GlobalContext } from "./context";
 
-function App() {
+const App = () => {
+  const { userState } = useContext(GlobalContext);
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    console.log("Checking auth in App.js");
+    if (userState.auth === true) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [userState]);
+
   return (
     <div className="App">
       <div className="container">
@@ -38,33 +53,33 @@ function App() {
             {/* load web page content */}
             <div className="mainContent">
               <Switch>
-                <Route path="/" exact>
+                <PrivateRoute auth={auth} path="/" exact>
                   <AdminHomePage />
-                </Route>
-                <Route path="/openList">
+                </PrivateRoute>
+                <PrivateRoute auth={auth} path="/openList">
                   <AdminOpenListPage />
-                </Route>
-                <Route path="/progressList">
+                </PrivateRoute>
+                <PrivateRoute auth={auth} path="/progressList">
                   <AdminProgressListPage />
-                </Route>
-                <Route path="/closedList">
+                </PrivateRoute>
+                <PrivateRoute auth={auth} path="/closedList">
                   <AdminClosedListPage />
-                </Route>
-                <Route path="/rejectedList">
+                </PrivateRoute>
+                <PrivateRoute auth={auth} path="/rejectedList">
                   <RejectedListPage />
-                </Route>
-                <Route path="/settings">
+                </PrivateRoute>
+                <PrivateRoute auth={auth} path="/settings">
                   <AddUser />
-                </Route>
-                <Route path="/help">
+                </PrivateRoute>
+                <PrivateRoute auth={auth} path="/help">
                   <HelpPage />
-                </Route>
+                </PrivateRoute>
                 <Route path="/login">
                   <LoginPage />
                 </Route>
-                <Route path="/profile">
+                <PrivateRoute auth={auth} path="/profile">
                   <ProfilePage />
-                </Route>
+                </PrivateRoute>
               </Switch>
             </div>
             {/* footer */}
@@ -80,6 +95,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
