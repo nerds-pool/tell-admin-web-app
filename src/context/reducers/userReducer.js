@@ -1,4 +1,4 @@
-import { SET_AUTH, SET_USER } from "../actions/action.types";
+import { RESET_USER, SET_AUTH, SET_USER } from "../actions/action.types";
 
 const user = (state, action) => {
   switch (action.type) {
@@ -14,6 +14,17 @@ const user = (state, action) => {
       return {
         ...state,
         auth: action.payload,
+      };
+    case RESET_USER:
+      return {
+        ...state,
+        loading: false,
+        auth: false,
+        data: {
+          ...state.data,
+          id: "",
+          role: null,
+        },
       };
     default:
       return state;

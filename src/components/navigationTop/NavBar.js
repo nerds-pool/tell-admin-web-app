@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
 import {
@@ -10,6 +10,8 @@ import {
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { COLOR } from "../../theme/Color";
+import { GlobalContext } from "../../context";
+import { resetUser } from "../../context/actions";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -35,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 function NavBar() {
   const classes = useStyles();
+  const { dispatchUser } = useContext(GlobalContext);
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatchUser(resetUser());
+    } catch (error) {
+      console.log("Error while log out", error.message);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -70,7 +83,11 @@ function NavBar() {
                 <AccountCircle />
               </IconButton>
             </Link>
-            <IconButton className={classes.button} disableRipple>
+            <IconButton
+              className={classes.button}
+              onClick={handleLogout}
+              disableRipple
+            >
               <ExitToApp />
             </IconButton>
           </div>
