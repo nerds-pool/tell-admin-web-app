@@ -1,11 +1,8 @@
+import "date-fns";
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
+import { Button, Box, Grid, Select, InputLabel } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { Button, Box } from "@material-ui/core";
-import "date-fns";
-import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -49,17 +46,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Filter = () => {
+const Filter = ({ onFilter, onReset }) => {
   const classes = useStyles();
-
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date, value) => {
     setSelectedDate(date);
+    const e = {
+      target: {
+        id: "date",
+        value: new Date(value).toISOString(),
+      },
+    };
+    onFilter(e);
   };
 
   const handleSelect = (e) => {
     console.log("Selected", e.target.id);
+    onFilter(e);
   };
 
   return (
@@ -78,10 +82,8 @@ const Filter = () => {
           onChange={handleSelect}
         >
           <option value="all">All Categories</option>
-          <option value={1}>Category 1</option>
-          <option value={2}>Category 2</option>
-          <option value={3}>Category 3</option>
-          <option value={4}>Category 4</option>
+          <option value="road">Road</option>
+          <option value="garbage">Garbage</option>
         </Select>
 
         <Select
@@ -91,10 +93,8 @@ const Filter = () => {
           onChange={handleSelect}
         >
           <option value="all">All Authorities</option>
-          <option value={1}>Department 1</option>
-          <option value={2}>Department 2</option>
-          <option value={3}>Department 3</option>
-          <option value={4}>Department 4</option>
+          <option value="police">Police</option>
+          <option value="rda">RDA</option>
         </Select>
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -105,7 +105,7 @@ const Filter = () => {
               variant="inline"
               format="MM/dd/yyyy"
               margin="normal"
-              id="date-picker-inline"
+              id="date"
               label="Date"
               value={selectedDate}
               onChange={handleDateChange}
@@ -116,8 +116,12 @@ const Filter = () => {
           </Grid>
         </MuiPickersUtilsProvider>
 
-        <Button className={classes.Button} variant="contained">
-          Save
+        <Button
+          className={classes.Button}
+          variant="contained"
+          onClick={onReset}
+        >
+          Reset
         </Button>
       </Box>
     </div>

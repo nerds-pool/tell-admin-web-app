@@ -1,10 +1,8 @@
 const tokenStore = {
-  token: {
-    loading: false,
-    data: {
-      signToken: "",
-      refToken: "",
-    },
+  loading: false,
+  data: {
+    signToken: "",
+    refToken: "",
   },
 };
 

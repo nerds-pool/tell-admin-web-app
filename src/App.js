@@ -15,20 +15,53 @@ import AddUser from "./webPages/Admin/AddUser";
 import HelpPage from "./webPages/Admin/HelpPage";
 import LoginPage from "./webPages/Admin/LoginPage";
 import ProfilePage from "./webPages/Admin/ProfilePage";
+import {
+  updateCategory,
+  updateAuthority,
+  updateDate,
+  resetFilter,
+} from "./context/actions";
 import { GlobalContext } from "./context";
 
 const App = () => {
-  const { userState } = useContext(GlobalContext);
+  const { userState, filterState, dispatchFilter } = useContext(GlobalContext);
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    console.log("Checking auth in App.js");
+    console.log("filter state in App.js", filterState);
     if (userState.auth === true) {
       setAuth(true);
     } else {
       setAuth(false);
     }
-  }, [userState]);
+  }, [userState, filterState]);
+
+  const handleFilter = async (e) => {
+    try {
+      const id = e.target.id;
+      const value = e.target.value;
+
+      if (id === "category") {
+        await dispatchFilter(updateCategory(value));
+      }
+      if (id === "date") {
+        await dispatchFilter(updateDate(value));
+      }
+      if (id === "authority") {
+        await dispatchFilter(updateAuthority(value));
+      }
+    } catch (error) {
+      console.log("Error at filter", error.message);
+    }
+  };
+
+  const handleFilterReset = async () => {
+    try {
+      await dispatchFilter(resetFilter());
+    } catch (error) {
+      console.log("Error at filter", error.message);
+    }
+  };
 
   return (
     <div className="App">
@@ -85,7 +118,7 @@ const App = () => {
           </div>
           {/* filter */}
           <div className="filter">
-            <Filter />
+            <Filter onFilter={handleFilter} onReset={handleFilterReset} />
           </div>
         </div>
       </div>

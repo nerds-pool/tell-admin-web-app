@@ -1,9 +1,7 @@
 const filterStore = {
-  filter: {
-    category: "all",
-    authority: "all",
-    date: null,
-  },
+  category: "all",
+  authority: "all",
+  date: null,
 };
 
 export default filterStore;
