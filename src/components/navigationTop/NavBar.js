@@ -1,16 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-  ButtonGroup,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { COLOR } from "../../theme/Color";
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: COLOR.navCol,
