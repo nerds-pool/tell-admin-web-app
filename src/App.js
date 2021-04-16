@@ -2,14 +2,10 @@ import "./App.css";
 import React, { useState, useEffect, useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import PrivateRoute from "./components/Route/PrivateRoute";
-
-// navBar
 import NavBar from "./components/navigationTop/NavBar";
 import SideNavBar from "./components/navigationSide/SideNav";
-import CategoryFilter from "./components/navigationSide/CategoryFilter";
+import Filter from "./components/navigationSide/Filter";
 import Footer from "./components/Footer/Footer";
-
-// Pages - Admin
 import AdminHomePage from "./webPages/Admin/HomePageAdmin";
 import AdminClosedListPage from "./webPages/Admin/ClosedListPageAdmin";
 import AdminAcceptedListPage from "./webPages/Admin/AcceptedListPageAdmin";
@@ -89,7 +85,7 @@ const App = () => {
           </div>
           {/* filter */}
           <div className="filter">
-            <CategoryFilter />
+            <Filter />
           </div>
         </div>
       </div>

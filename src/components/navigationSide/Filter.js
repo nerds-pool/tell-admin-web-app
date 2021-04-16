@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { Button } from "@material-ui/core";
-
-//date picker
+import { Button, Box } from "@material-ui/core";
 import "date-fns";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
@@ -14,14 +11,20 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { COLOR } from "../../theme/Color";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   heading: {
     display: "flex",
+    marginTop: theme.spacing(7),
+    justifyContent: "center",
   },
   container: {
     display: "flex",
@@ -33,24 +36,30 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
   },
   Button: {
-    backgroundColor: "#b71c1c",
-    "&:active": {
-      backgroundColor: "#b71c1c",
-    },
-    "&:focus": {
+    backgroundColor: COLOR.navCol,
+    color: theme.palette.common.white,
+    width: "80%",
+    "&:hover": {
       backgroundColor: "#b71c1c",
     },
   },
+  Select: {
+    marginTop: theme.spacing(3),
+    width: "80%",
+  },
 }));
 
-const DepFilter = () => {
+const Filter = () => {
   const classes = useStyles();
 
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date("2021-03-18T21:11:54")
-  );
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
+  };
+
+  const handleSelect = (e) => {
+    console.log("Selected", e.target.id);
   };
 
   return (
@@ -61,10 +70,27 @@ const DepFilter = () => {
           <h2> &nbsp;Filter</h2>
         </InputLabel>
       </div>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="grouped-native-select">Department</InputLabel>
-        <Select native defaultValue="" id="grouped-native-select">
-          <option aria-label="None" value="" />
+      <Box className={classes.formControl}>
+        <Select
+          native
+          id="category"
+          className={classes.Select}
+          onChange={handleSelect}
+        >
+          <option value="all">All Categories</option>
+          <option value={1}>Category 1</option>
+          <option value={2}>Category 2</option>
+          <option value={3}>Category 3</option>
+          <option value={4}>Category 4</option>
+        </Select>
+
+        <Select
+          native
+          id="authority"
+          className={classes.Select}
+          onChange={handleSelect}
+        >
+          <option value="all">All Authorities</option>
           <option value={1}>Department 1</option>
           <option value={2}>Department 2</option>
           <option value={3}>Department 3</option>
@@ -74,6 +100,7 @@ const DepFilter = () => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="space-around">
             <KeyboardDatePicker
+              className={classes.Select}
               disableToolbar
               variant="inline"
               format="MM/dd/yyyy"
@@ -89,16 +116,12 @@ const DepFilter = () => {
           </Grid>
         </MuiPickersUtilsProvider>
 
-        <Button
-          className={classes.Button}
-          variant="contained"
-          color="secondary"
-        >
-          Filter
+        <Button className={classes.Button} variant="contained">
+          Save
         </Button>
-      </FormControl>
+      </Box>
     </div>
   );
 };
 
-export default DepFilter;
+export default Filter;
