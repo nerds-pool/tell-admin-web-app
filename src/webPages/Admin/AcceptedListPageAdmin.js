@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReportBar from "../../components/ReportBar/ReportBar";
 import Complaint from "../../components/complaint/Complaint";
-
 import { ComplaintData } from "../../FetchData/ComplaintData";
-
 import { Grid, Container, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { BubbleChart } from "@material-ui/icons";
@@ -31,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProgressListPageAdmin() {
+function OpenListPageAdmin() {
   const classes = useStyles();
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,8 +38,8 @@ function ProgressListPageAdmin() {
     (async () => {
       try {
         setLoading(true);
-        const response = await api.get.complaintsByStatus("processing");
-        console.table("All processing complaints", response.data.result);
+        const response = await api.get.complaintsByStatus("accepted");
+        console.table("All accepted complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
         console.error("Error at home page", error.message);
@@ -72,16 +70,17 @@ function ProgressListPageAdmin() {
         className={classes.marginTop}
       >
         {ComplaintData.map((val, key) => {
-          if (val.status === "Processing") {
+          if (val.status === "Accepted") {
             return (
               <Complaint
-                key={val.id}
+                key={key}
                 title={val.title}
                 desc={val.description}
                 dept={val.department}
                 date={val.date}
                 status={val.status}
                 type={val.status}
+                // img={val.img}
               />
             );
           } else {
@@ -93,4 +92,4 @@ function ProgressListPageAdmin() {
   );
 }
 
-export default ProgressListPageAdmin;
+export default OpenListPageAdmin;

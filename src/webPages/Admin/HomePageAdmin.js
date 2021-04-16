@@ -9,7 +9,7 @@ import { COLOR } from "../../theme/Color";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(4),
   },
   loading: {
     display: "flex",

@@ -72,14 +72,14 @@ function SideNav() {
         <Typography
           className={`${classes.link} ${classes.list}`}
           component={Link}
-          to="/openList"
+          to="/acceptedList"
         >
           Accepted
         </Typography>
         <Typography
           className={`${classes.link} ${classes.list}`}
           component={Link}
-          to="/progressList"
+          to="/ongoingList"
         >
           Ongoing
         </Typography>

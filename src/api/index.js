@@ -49,7 +49,8 @@ const api = {
   },
   get: {
     allComplaints: () => http.get("/complaints/get/admin"),
-    allComplaintsByStatus: () => http.get("/complaints/get/admin/status"),
+    complaintsByStatus: (status) =>
+      http.get(`/complaints/get/admin/status?q=${status}`),
     complaintById: (complaintId) =>
       http.get(`/complaints/get/one/${complaintId}`),
     complaintByCategory: (categoryId) =>

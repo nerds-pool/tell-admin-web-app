@@ -12,7 +12,7 @@ import Footer from "./components/Footer/Footer";
 // Pages - Admin
 import AdminHomePage from "./webPages/Admin/HomePageAdmin";
 import AdminClosedListPage from "./webPages/Admin/ClosedListPageAdmin";
-import AdminOpenListPage from "./webPages/Admin/OpenListPageAdmin";
+import AdminAcceptedListPage from "./webPages/Admin/AcceptedListPageAdmin";
 import AdminProgressListPage from "./webPages/Admin/ProgressListPageAdmin";
 import RejectedListPage from "./webPages/Admin/RejectedListAdmin";
 import AddUser from "./webPages/Admin/AddUser";
@@ -56,10 +56,10 @@ const App = () => {
                 <PrivateRoute auth={auth} path="/" exact>
                   <AdminHomePage />
                 </PrivateRoute>
-                <PrivateRoute auth={auth} path="/openList">
-                  <AdminOpenListPage />
+                <PrivateRoute auth={auth} path="/acceptedList">
+                  <AdminAcceptedListPage />
                 </PrivateRoute>
-                <PrivateRoute auth={auth} path="/progressList">
+                <PrivateRoute auth={auth} path="/ongoingList">
                   <AdminProgressListPage />
                 </PrivateRoute>
                 <PrivateRoute auth={auth} path="/closedList">
