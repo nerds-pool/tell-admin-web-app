@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Box, Grid, Select, InputLabel } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -9,6 +9,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { COLOR } from "../../theme/Color";
+import api from "../../api";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -49,6 +50,29 @@ const useStyles = makeStyles((theme) => ({
 const Filter = ({ onFilter, onReset }) => {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState(null);
+  const [filterData, setFilterData] = useState({
+    categories: [],
+    authorities: [],
+  });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await api.get.filterData();
+        console.log("Filter Data", response.data.result);
+        setFilterData((prevState) => ({
+          ...prevState,
+          categories: response.data.result.categories,
+          authorities: response.data.result.authorities,
+        }));
+      } catch (error) {
+        console.log(
+          "Error while fetching filter data",
+          error.response ?? error.message
+        );
+      }
+    })();
+  }, []);
 
   const handleDateChange = (date, value) => {
     setSelectedDate(date);
@@ -82,8 +106,12 @@ const Filter = ({ onFilter, onReset }) => {
           onChange={handleSelect}
         >
           <option value="all">All Categories</option>
-          <option value="road">Road</option>
-          <option value="garbage">Garbage</option>
+          {filterData.categories &&
+            filterData.categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.title}
+              </option>
+            ))}
         </Select>
 
         <Select
@@ -93,8 +121,12 @@ const Filter = ({ onFilter, onReset }) => {
           onChange={handleSelect}
         >
           <option value="all">All Authorities</option>
-          <option value="police">Police</option>
-          <option value="rda">RDA</option>
+          {filterData.authorities&&
+            filterData.authorities.map((authority) => (
+              <option key={authority._id} value={authority._id}>
+                {authority.authorityName}
+              </option>
+            ))}
         </Select>
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
