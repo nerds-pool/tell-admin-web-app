@@ -67,7 +67,6 @@ const RejectedListAdmin = () => {
 
   return (
     <div className={classes.marginTop}>
-      <ReportBar />
       <Grid
         // container
         direction="row"
@@ -81,19 +80,20 @@ const RejectedListAdmin = () => {
               <Complaint
                 key={val._id}
                 id={val._id}
-                title={val.title}
+                status={val.status}
+                votes={val.votes}
                 owner={val.owner}
+                title={val.title}
                 content={val.content}
-                authority={"RDA"}
+                location={val.location}
+                landmark={val.landmark}
+                media={val.media}
+                comments={val.comments}
                 date={`${new Date(val.createdAt).getDate()}/${
                   new Date(val.createdAt).getMonth() + 1
                 }/${new Date(val.createdAt).getFullYear()}`}
-                status={val.status}
-                media={val.media}
-                landmark={val.landmark}
-                location={val.location}
-                comments={val.comments}
-                votes={val.votes}
+                authority={val.authority}
+                category={val.category}
               />
             ) : null
           )}

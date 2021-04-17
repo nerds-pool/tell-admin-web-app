@@ -21,6 +21,7 @@ const Complaint = ({
   comments,
   date,
   authority,
+  category,
   reason = null,
   onUpdate = null,
 }) => {
@@ -70,26 +71,29 @@ const Complaint = ({
       case "accepted":
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "#678d58" }}>{status}</span>
+            Status:{" "}
+            <span style={{ color: "#678d58" }}>{status.toUpperCase()}</span>
           </Typography>
         );
       case "processing":
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "#0077b6" }}>{status}</span>
+            Status:{" "}
+            <span style={{ color: "#0077b6" }}>{status.toUpperCase()}</span>
           </Typography>
         );
       case "rejected":
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "red" }}>{status}</span>
+            Status: <span style={{ color: "red" }}>{status.toUpperCase()}</span>
           </Typography>
         );
 
       default:
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "#7d8597" }}>{status}</span>
+            Status:{" "}
+            <span style={{ color: "#7d8597" }}>{status.toUpperCase()}</span>
           </Typography>
         );
     }
@@ -141,7 +145,7 @@ const Complaint = ({
             {/* <Button>User</Button> */}
             <CardContent className={classes.upvotes}>
               <ArrowDropUp fontSize="large" />
-              <Typography>11</Typography>
+              <Typography>{votes.length ?? 0}</Typography>
             </CardContent>
           </CardContent>
 
@@ -149,12 +153,12 @@ const Complaint = ({
             <Typography variant="h4" className={classes.heading}>
               {title}
             </Typography>
-            <img className={classes.media} src={bicyleImg} alt="" />
-            {/* <img
+            {/* <img className={classes.media} src={bicyleImg} alt="" /> */}
+            <img
               className={classes.media}
               src={`https://tell-lk/.netlify/functions/api/file/${media}`}
               alt="Complaint"
-            /> */}
+            />
             <Typography>
               {showLess ? `${content.slice(0, 70)}...` : content}
             </Typography>
@@ -165,21 +169,29 @@ const Complaint = ({
             >
               View {showLess ? "More" : "Less"}
             </Typography>
+            <Typography
+              className={classes.caption}
+            >{`Complainer: ${owner.firstName} ${owner.lastName}`}</Typography>
             <Typography className={classes.caption}>
-              Complainer:{" "}
-              <span className={classes.dept}>
-                {" "}
-                {`${owner.firstName} ${owner.lastName}`}
-              </span>
+              {`Category: ${category.title}`}
             </Typography>
             <Typography className={classes.caption}>
-              Authority: <span className={classes.dept}> {authority}</span>
+              {"Authority: "}
+              <span className={classes.dept}>{authority.authorityName}</span>
             </Typography>
             {statusColor()}
+            <Typography className={classes.caption}>
+              {`Landmark: ${landmark}`}
+            </Typography>
+            <Typography
+              className={classes.caption}
+            >{`Address: ${location.line}`}</Typography>
+            <Typography
+              className={classes.caption}
+            >{`City: ${location.city.toUpperCase()}`}</Typography>
             <Typography className={classes.caption}>Date: {date}</Typography>
             {rejectComment()}
           </CardContent>
-
           <CardContent className={classes.medDet}></CardContent>
         </CardContent>
 

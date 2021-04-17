@@ -59,6 +59,7 @@ const api = {
       http.get(`/complaints/get/cat/${categoryId}`),
     profile: (userId) => http.get(`/profile/pro/${userId}`),
     filterData: () => http.get("/complaints/meta"),
+    report: () => http.get("/complaints/report"),
   },
   patch: {
     complaintStatusAsDone: (body) =>

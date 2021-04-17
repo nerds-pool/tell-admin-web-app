@@ -27,7 +27,7 @@
   position: fixed;
   background-color: #edede8;
   height: 100%;
-  padding-left: 20px
+  padding-left: 20px;
 }
 
 .comnfot {
@@ -35,8 +35,12 @@
   width: 71%;
 }
 
+.reportBar {
+  padding: 50px 150px 20px 150px;
+}
+
 .mainContent {
-  padding: 20px 100px;
+  padding: 20px 150px;
   min-height: 100vh;
 }
 
@@ -45,7 +49,7 @@
   position: fixed;
   background-color: #edede8;
   height: 100%;
-  right: 0
+  right: 0;
 }
 
 .footer {

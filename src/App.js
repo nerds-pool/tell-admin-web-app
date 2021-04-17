@@ -22,10 +22,13 @@ import {
   resetFilter,
 } from "./context/actions";
 import { GlobalContext } from "./context";
+import ReportBar from "./components/ReportBar/ReportBar";
+import api from "./api";
 
 const App = () => {
   const { userState, filterState, dispatchFilter } = useContext(GlobalContext);
   const [auth, setAuth] = useState(false);
+  const [report, setReport] = useState({});
 
   useEffect(() => {
     console.log("filter state in App.js", filterState);
@@ -35,6 +38,20 @@ const App = () => {
       setAuth(false);
     }
   }, [userState, filterState]);
+
+  useEffect(() => {
+    if (auth)
+      (async () => {
+        try {
+          const response = await api.get.report();
+          if (!response.data.success) throw new Error(response.data.msg);
+          console.log("Report", response.data.result);
+          setReport(response.data.result);
+        } catch (error) {
+          console.log("Error while fetching report", error.message);
+        }
+      })();
+  }, [auth]);
 
   const handleFilter = async (e) => {
     try {
@@ -79,6 +96,15 @@ const App = () => {
           </div>
           {/* body and footer */}
           <div className="comnfot">
+            <div className="reportBar">
+              {auth && (
+                <ReportBar
+                  pending={report.pendingCases}
+                  solved={report.solvedCases}
+                  total={report.totalCases}
+                />
+              )}
+            </div>
             {/* load web page content */}
             <div className="mainContent">
               <Switch>
