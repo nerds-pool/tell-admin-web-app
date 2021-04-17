@@ -175,7 +175,7 @@ const Complaint = ({
             </Typography>
             <Typography
               className={classes.caption}
-            >{`Complainer: ${owner.firstName} ${owner.lastName}`}</Typography>
+            >{`Complainer: ${owner.firstName} ${owner.lastName} (${owner.contact})`}</Typography>
             <Typography className={classes.caption}>
               {`Category: ${category.title}`}
             </Typography>
