@@ -91,8 +91,7 @@ const App = () => {
         <div className="body">
           {/* Sidenavbar */}
           <div className="sideNav">
-            {" "}
-            <SideNavBar />{" "}
+            <SideNavBar />
           </div>
           {/* body and footer */}
           <div className="comnfot">

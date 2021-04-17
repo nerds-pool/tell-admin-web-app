@@ -4,9 +4,9 @@ import { ArrowDropUp } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "../alertBox/Alert";
 import bicyleImg from "./Bicycle.png";
-// import { COLOR } from "../../theme/Color";
 import api from "../../api";
 import { GlobalContext } from "../../context";
+// import { COLOR } from "../../theme/Color";
 
 const Complaint = ({
   id,
@@ -103,7 +103,7 @@ const Complaint = ({
     if (reason != null) {
       return (
         <Typography className={classes.caption}>
-          Reject Comment:{" "}
+          {"Reject Comment: "}
           <span style={{ fontWeight: "normal" }}> {reason}</span>
         </Typography>
       );
@@ -153,12 +153,12 @@ const Complaint = ({
             <Typography variant="h4" className={classes.heading}>
               {title}
             </Typography>
-            {/* <img className={classes.media} src={bicyleImg} alt="" /> */}
-            <img
+            <img className={classes.media} src={bicyleImg} alt="" />
+            {/* <img
               className={classes.media}
               src={`https://tell-lk/.netlify/functions/api/file/${media}`}
               alt="Complaint"
-            />
+            /> */}
             <Typography>
               {showLess ? `${content.slice(0, 70)}...` : content}
             </Typography>

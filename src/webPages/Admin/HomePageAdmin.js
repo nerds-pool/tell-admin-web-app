@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import ReportBar from "../../components/ReportBar/ReportBar";
 import Complaint from "../../components/complaint/Complaint";
 import { Grid, Container, Typography } from "@material-ui/core";
 import { BubbleChart } from "@material-ui/icons";

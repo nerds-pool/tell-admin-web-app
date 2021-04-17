@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f2f2f2",
   },
   submit: {
+    height: 50,
     margin: theme.spacing(3, 0, 2),
     backgroundColor: COLOR.navCol,
     "&:hover": {
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   fields: {
     paddingTop: "10px",
     backgroundColor: "#e8e8e4",
-    width: "250px",
+    width: "100%",
     textAlign: "center",
     height: "40px",
     borderRadius: "5px",
@@ -113,7 +114,7 @@ const Profile = () => {
     );
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>

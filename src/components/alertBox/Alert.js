@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 
 // import icons
-import { PriorityHigh, HelpOutline } from "@material-ui/icons";
+import { HelpOutline } from "@material-ui/icons";
 
 // import makeStyles
 import { makeStyles } from "@material-ui/core/styles";

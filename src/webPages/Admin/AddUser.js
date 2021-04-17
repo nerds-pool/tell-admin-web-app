@@ -16,7 +16,7 @@ const FORM_RESET = "FORM_RESET";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "20px 20%",
+    padding: "20px 0",
     paddingTop: theme.spacing(3),
   },
   paper: {
@@ -212,7 +212,6 @@ const AddUser = () => {
                 required
                 fullWidth
                 label="Password"
-                type="password"
                 id="password"
                 value={formState.password}
                 onChange={handleInput}

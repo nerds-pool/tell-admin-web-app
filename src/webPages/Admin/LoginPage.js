@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   error: {
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const formReducer = (state, action) => {
@@ -103,6 +103,11 @@ const LoginPage = () => {
       const response = await api.post.signIn(signinBody);
       console.log("Admin doc", response.data.result);
 
+      if (response.data.result.role !== 99) {
+        setErrorMsg("Please use an administration account to Login");
+        return;
+      }
+
       const user = {
         id: response.data.result.id,
         role: response.data.result.role,
@@ -141,7 +146,9 @@ const LoginPage = () => {
         <Typography component="h1" variant="h5">
           Admin Log In
         </Typography>
-        <Typography color="error" className={classes.error}>{errorMsg}</Typography>
+        <Typography color="error" className={classes.error}>
+          {errorMsg}
+        </Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
