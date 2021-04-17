@@ -6,9 +6,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyle = makeStyles((theme) => ({
   container: {
-    // position: "fixed",
-    // height: "100%",
-    // width: "15%",
     backgroundColor: "#edede8",
   },
   heading: {
@@ -25,7 +22,6 @@ const useStyle = makeStyles((theme) => ({
     textDecoration: "none",
     width: "100%",
     color: "black",
-    // margin: "8px",
     paddingTop: "10px",
 
     fontWeight: "bold",
@@ -53,7 +49,6 @@ function SideNav() {
   const classes = useStyle();
   return (
     <div className={classes.container}>
-      {/* <Typography className={classes.tabName} variant="h4"> </Typography> */}
       <CardContent className={classes.links}>
         <div className={classes.heading}>
           <InputLabel>

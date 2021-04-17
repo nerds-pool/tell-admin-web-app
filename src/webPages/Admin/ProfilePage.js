@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import Typography from "@material-ui/core/Typography";
@@ -148,34 +146,6 @@ const Profile = () => {
               {profile.contact ?? " "}
             </Typography>
           </div>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="confirm-password"
-            label="Confirm Password"
-            type="confirm-password"
-            id="confirm-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            align="center"
-            className={classes.submit}
-          >
-            Update
-          </Button>
           <Grid container></Grid>
         </form>
       </div>

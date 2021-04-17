@@ -121,7 +121,7 @@ const Filter = ({ onFilter, onReset }) => {
           onChange={handleSelect}
         >
           <option value="all">All Authorities</option>
-          {filterData.authorities&&
+          {filterData.authorities &&
             filterData.authorities.map((authority) => (
               <option key={authority._id} value={authority._id}>
                 {authority.authorityName}

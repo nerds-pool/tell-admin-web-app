@@ -8,13 +8,8 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
-
-// import icons
 import { HelpOutline } from "@material-ui/icons";
-
-// import makeStyles
 import { makeStyles } from "@material-ui/core/styles";
-// import custom COLOR library
 import { COLOR } from "../../theme/Color";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     flexWrap: "wrap",
-    // height: '100vh'
   },
   IconCon: {
     alignSelf: "center",
@@ -56,14 +50,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Alert(props) {
-  // State for receiving Alert Type
-  const [AlertType, setAlertType] = useState(props.Type);
-  useEffect(() => setAlertType(props.Type), [props.Type]);
-
-  const [BtnType, setBtnType] = useState(props.btnType);
-  useEffect(() => setBtnType(props.btnType), [props.btnType]);
-
   const classes = useStyles();
+  const [AlertType, setAlertType] = useState(props.Type); // State for receiving Alert Type
+  const [BtnType, setBtnType] = useState(props.btnType);
+
+  useEffect(() => setBtnType(props.btnType), [props.btnType]);
+  useEffect(() => setAlertType(props.Type), [props.Type]);
 
   const DisplayAlert = () => {
     if (AlertType === "open" && BtnType === "Confirm")

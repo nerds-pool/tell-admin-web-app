@@ -67,7 +67,6 @@ function ClosedListPageAdmin() {
   return (
     <div className={classes.marginTop}>
       <Grid
-        // container
         direction="row"
         justify="center"
         alignItems="center"

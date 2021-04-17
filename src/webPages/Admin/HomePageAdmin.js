@@ -44,7 +44,6 @@ function HomePageAdmin() {
           filterState.authority,
           filterState.date
         );
-        // console.table("All complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
         console.error("Error at home page", error.message);
@@ -67,7 +66,6 @@ function HomePageAdmin() {
   return (
     <div className={classes.marginTop}>
       <Grid
-        // container
         direction="row"
         justify="center"
         alignItems="center"

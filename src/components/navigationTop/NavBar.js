@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 function NavBar() {
   const classes = useStyles();
   const { dispatchUser } = useContext(GlobalContext);
