@@ -6,6 +6,7 @@ import Alert from "../alertBox/Alert";
 import bicyleImg from "./Bicycle.png";
 import api from "../../api";
 import { GlobalContext } from "../../context";
+import { COLOR } from "../../theme/Color";
 // import { COLOR } from "../../theme/Color";
 
 const Complaint = ({
@@ -123,7 +124,7 @@ const Complaint = ({
             className={classes.btn}
             onClick={handleOpenAlert}
           >
-            Confirm Job Done
+            Close Complaint
           </Button>
           <Alert
             open={Open}
@@ -168,6 +169,9 @@ const Complaint = ({
               onClick={() => setShowLess(!showLess)}
             >
               View {showLess ? "More" : "Less"}
+            </Typography>
+            <Typography className={[classes.caption, classes.complaintIdText]}>
+              {`T-${id.toString().toUpperCase()}`}
             </Typography>
             <Typography
               className={classes.caption}
@@ -240,6 +244,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "15px",
     fontWeight: "bold",
   },
+  complaintIdText: {
+    fontSize: "18px",
+    marginBottom: 5,
+  },
   desc: {
     cursor: "pointer",
     color: "blue",
@@ -267,5 +275,6 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     marginBottom: 10,
     height: 30,
+    backgroundColor: COLOR.navCol,
   },
 }));

@@ -202,7 +202,7 @@ function Alert(props) {
               <HelpOutline className={classes.Icon} />
             </DialogContent>
             <DialogTitle id="form-dialog-title">
-              Confirm this complaint as done?
+              Do you want to close this complaint?
             </DialogTitle>
             <DialogContentText>{`Complaint: ${props.title}`}</DialogContentText>
 
