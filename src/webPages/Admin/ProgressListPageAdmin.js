@@ -35,6 +35,7 @@ function ProgressListPageAdmin() {
   const { filterState } = useContext(GlobalContext);
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -54,7 +55,11 @@ function ProgressListPageAdmin() {
         setLoading(false);
       }
     })();
-  }, [filterState]);
+  }, [filterState, cycle]);
+
+  const handleUpdate = () => {
+    setCycle((prevState) => prevState + 1);
+  };
 
   if (loading)
     return (
@@ -77,20 +82,25 @@ function ProgressListPageAdmin() {
         className={classes.marginTop}
       >
         {complaints &&
-          complaints.map((val, key) =>
+          complaints.map((val) =>
             val.status === "processing" ? (
               <Complaint
                 key={val._id}
                 id={val._id}
                 title={val.title}
-                desc={val.content}
-                dept={"RDA"}
+                owner={val.owner}
+                content={val.content}
+                authority={"RDA"}
                 date={`${new Date(val.createdAt).getDate()}/${
                   new Date(val.createdAt).getMonth() + 1
                 }/${new Date(val.createdAt).getFullYear()}`}
                 status={val.status}
-                type={val.status}
-                imageUrl={val.media}
+                media={val.media}
+                landmark={val.landmark}
+                location={val.location}
+                comments={val.comments}
+                votes={val.votes}
+                onUpdate={handleUpdate}
               />
             ) : null
           )}

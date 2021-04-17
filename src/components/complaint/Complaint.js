@@ -4,24 +4,36 @@ import { ArrowDropUp } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "../alertBox/Alert";
 import bicyleImg from "./Bicycle.png";
-import { COLOR } from "../../theme/Color";
+// import { COLOR } from "../../theme/Color";
 import api from "../../api";
 import { GlobalContext } from "../../context";
 
-function Complaint(props) {
+const Complaint = ({
+  id,
+  status,
+  votes,
+  owner,
+  title,
+  content,
+  location,
+  landmark,
+  media,
+  comments,
+  date,
+  authority,
+  reason = null,
+  onUpdate = null,
+}) => {
   const { userState } = useContext(GlobalContext);
-
-  // render button to admin according to the complaint type
-  const [complaintType, setComplaintType] = useState(props.type);
-  useEffect(() => setComplaintType(props.type), [props.type]);
-  console.log(props.imageUrl);
-
-  // description show more less
+  const [complaintType, setComplaintType] = useState(status); // render button according to the status
   const [showLess, setShowLess] = useState(true);
-  const desc = props.desc;
-
-  // open close dialog box
   const [Open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setComplaintType(status);
+  }, [status]);
+
+  console.log(media);
 
   const handleOpenAlert = (e) => {
     e.preventDefault();
@@ -32,15 +44,17 @@ function Complaint(props) {
   };
 
   const handleConfirmAlert = async () => {
-    console.log("Confirmed job", props.id);
+    console.log("Confirmed job", id);
     try {
       const body = {
         userId: userState.data.id,
-        complaintId: props.id,
+        complaintId: id,
         reason: "none",
-        complaintState: "confirmed",
+        complaintState: "closed",
       };
-      await api.patch.complaintStatusAsDone(body);
+      const response = await api.patch.complaintStatusAsDone(body);
+      console.dir(response.data.result);
+      onUpdate();
     } catch (error) {
       console.log(
         "Error at complaint mark done",
@@ -52,41 +66,41 @@ function Complaint(props) {
   };
 
   const statusColor = () => {
-    switch (props.status) {
+    switch (status) {
       case "accepted":
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "#678d58" }}>{props.status}</span>
+            Status: <span style={{ color: "#678d58" }}>{status}</span>
           </Typography>
         );
       case "processing":
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "#0077b6" }}>{props.status}</span>
+            Status: <span style={{ color: "#0077b6" }}>{status}</span>
           </Typography>
         );
       case "rejected":
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "red" }}>{props.status}</span>
+            Status: <span style={{ color: "red" }}>{status}</span>
           </Typography>
         );
 
       default:
         return (
           <Typography className={classes.caption}>
-            Status: <span style={{ color: "#7d8597" }}>{props.status}</span>
+            Status: <span style={{ color: "#7d8597" }}>{status}</span>
           </Typography>
         );
     }
   };
 
   const rejectComment = () => {
-    if (props.rejDesc != null) {
+    if (reason != null) {
       return (
         <Typography className={classes.caption}>
           Reject Comment:{" "}
-          <span style={{ fontWeight: "normal" }}> {props.rejDesc}</span>
+          <span style={{ fontWeight: "normal" }}> {reason}</span>
         </Typography>
       );
     } else {
@@ -111,8 +125,8 @@ function Complaint(props) {
             open={Open}
             onClose={handleCloseAlert}
             onConfirm={handleConfirmAlert}
-            Type={props.status}
-            title={props.title}
+            Type={status}
+            title={title}
           />
         </React.Fragment>
       );
@@ -124,7 +138,7 @@ function Complaint(props) {
       <Card className={classes.container}>
         <CardContent className={classes.content}>
           <CardContent className={classes.userPref}>
-            <Button>User</Button>
+            {/* <Button>User</Button> */}
             <CardContent className={classes.upvotes}>
               <ArrowDropUp fontSize="large" />
               <Typography>11</Typography>
@@ -133,16 +147,16 @@ function Complaint(props) {
 
           <CardContent className={classes.details}>
             <Typography variant="h4" className={classes.heading}>
-              {props.title}{" "}
+              {title}
             </Typography>
             <img className={classes.media} src={bicyleImg} alt="" />
             {/* <img
               className={classes.media}
-              src={`https://tell-lk/.netlify/functions/api/file/${props.imageUrl}`}
+              src={`https://tell-lk/.netlify/functions/api/file/${media}`}
               alt="Complaint"
             /> */}
             <Typography>
-              {showLess ? `${desc.slice(0, 70)}...` : desc}
+              {showLess ? `${content.slice(0, 70)}...` : content}
             </Typography>
             <Typography
               className={classes.desc}
@@ -152,12 +166,17 @@ function Complaint(props) {
               View {showLess ? "More" : "Less"}
             </Typography>
             <Typography className={classes.caption}>
-              Department: <span className={classes.dept}> {props.dept}</span>
+              Complainer:{" "}
+              <span className={classes.dept}>
+                {" "}
+                {`${owner.firstName} ${owner.lastName}`}
+              </span>
+            </Typography>
+            <Typography className={classes.caption}>
+              Authority: <span className={classes.dept}> {authority}</span>
             </Typography>
             {statusColor()}
-            <Typography className={classes.caption}>
-              Date: {props.date}
-            </Typography>
+            <Typography className={classes.caption}>Date: {date}</Typography>
             {rejectComment()}
           </CardContent>
 
@@ -168,7 +187,7 @@ function Complaint(props) {
       </Card>
     </div>
   );
-}
+};
 
 export default Complaint;
 
