@@ -6,6 +6,7 @@ import { BubbleChart } from "@material-ui/icons";
 import api from "../../api";
 import { COLOR } from "../../theme/Color";
 import { GlobalContext } from "../../context";
+import ErrorSnack from "../../components/alertBox/ErrorSnack";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
@@ -33,6 +34,10 @@ const RejectedListAdmin = () => {
   const { filterState } = useContext(GlobalContext);
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({
+    state: undefined,
+    message: undefined,
+  });
 
   useEffect(() => {
     (async () => {
@@ -47,7 +52,13 @@ const RejectedListAdmin = () => {
         console.table("All rejected complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
-        console.error("Error at home page", error.message);
+        setError((prevState) => ({
+          ...prevState,
+          state: true,
+          message: `Error while fetching rejected list ${
+            error.response ?? error.message
+          }`,
+        })); 
       } finally {
         setLoading(false);
       }
@@ -96,6 +107,7 @@ const RejectedListAdmin = () => {
             ) : null
           )}
       </Grid>
+      <ErrorSnack isVisible={error.state} message={error.message} />
     </div>
   );
 };

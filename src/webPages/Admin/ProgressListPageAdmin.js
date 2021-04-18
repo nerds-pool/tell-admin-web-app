@@ -6,6 +6,7 @@ import { BubbleChart } from "@material-ui/icons";
 import api from "../../api";
 import { COLOR } from "../../theme/Color";
 import { GlobalContext } from "../../context";
+import ErrorSnack from "../../components/alertBox/ErrorSnack";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
@@ -35,6 +36,10 @@ function ProgressListPageAdmin() {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
   const [cycle, setCycle] = useState(0);
+  const [error, setError] = useState({
+    state: undefined,
+    message: undefined,
+  });
 
   useEffect(() => {
     (async () => {
@@ -49,8 +54,13 @@ function ProgressListPageAdmin() {
         console.table("All processing complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
-        console.error("Error at home page", error.message);
-      } finally {
+        setError((prevState) => ({
+            ...prevState,
+            state: true,
+            message: `Error while fetching progress list ${
+              error.response ?? error.message
+            }`,
+          }));} finally {
         setLoading(false);
       }
     })();
@@ -103,6 +113,7 @@ function ProgressListPageAdmin() {
             ) : null
           )}
       </Grid>
+      <ErrorSnack isVisible={error.state} message={error.message} />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import api from "../../api";
 import { COLOR } from "../../theme/Color";
 import { GlobalContext } from "../../context";
+import ErrorSnack from "../../components/alertBox/ErrorSnack";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
@@ -33,7 +34,10 @@ function HomePageAdmin() {
   const { filterState } = useContext(GlobalContext);
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState({
+    state: undefined,
+    message: undefined,
+  });
   useEffect(() => {
     (async () => {
       try {
@@ -46,8 +50,13 @@ function HomePageAdmin() {
         );
         setComplaints(response.data.result);
       } catch (error) {
-        console.error("Error at home page", error.message);
-      } finally {
+        setError((prevState) => ({
+          ...prevState,
+          state: true,
+          message: `Error at home page ${
+            error.response ?? error.message
+          }`,
+        }));} finally {
         setLoading(false);
       }
     })();
@@ -95,6 +104,7 @@ function HomePageAdmin() {
             ) : null
           )}
       </Grid>
+      <ErrorSnack isVisible={error.state} message={error.message} />
     </div>
   );
 }

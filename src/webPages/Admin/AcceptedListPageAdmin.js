@@ -6,6 +6,7 @@ import { BubbleChart } from "@material-ui/icons";
 import api from "../../api";
 import { COLOR } from "../../theme/Color";
 import { GlobalContext } from "../../context";
+import ErrorSnack from "../../components/alertBox/ErrorSnack";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
@@ -33,6 +34,10 @@ function OpenListPageAdmin() {
   const { filterState } = useContext(GlobalContext);
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({
+    state: undefined,
+    message: undefined,
+  });
 
   useEffect(() => {
     (async () => {
@@ -47,7 +52,12 @@ function OpenListPageAdmin() {
         console.table("All accepted complaints", response.data.result);
         setComplaints(response.data.result);
       } catch (error) {
-        console.error("Error at home page", error.message);
+        setError((prevState) => ({
+          ...prevState,
+          state: true,
+          message: `Error while fetching Accepted list ${error.response ?? error.message
+            }`,
+        }));
       } finally {
         setLoading(false);
       }
@@ -87,15 +97,16 @@ function OpenListPageAdmin() {
                 landmark={val.landmark}
                 media={val.media}
                 comments={val.comments}
-                date={`${new Date(val.createdAt).getDate()}/${
-                  new Date(val.createdAt).getMonth() + 1
-                }/${new Date(val.createdAt).getFullYear()}`}
+                date={`${new Date(val.createdAt).getDate()}/${new Date(val.createdAt).getMonth() + 1
+                  }/${new Date(val.createdAt).getFullYear()}`}
                 authority={val.authority}
                 category={val.category}
               />
             ) : null
           )}
       </Grid>
+      <ErrorSnack isVisible={error.state} message={error.message} />
+
     </div>
   );
 }

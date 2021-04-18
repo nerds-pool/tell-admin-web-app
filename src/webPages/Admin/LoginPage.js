@@ -12,6 +12,7 @@ import { GlobalContext } from "../../context";
 import { setUser, setAuth, setTokens } from "../../context/actions";
 import { useHistory } from "react-router-dom";
 import { COLOR } from "../../theme/Color";
+import ErrorSnack from "../../components/alertBox/ErrorSnack";
 
 const FORM_UPDATE = "FORM_UPDATE";
 
@@ -65,6 +66,12 @@ const LoginPage = () => {
   const { userState, tokenState, dispatchUser, dispatchToken } = useContext(
     GlobalContext
   );
+  
+  const [error, setError] = useState({
+    state: undefined,
+    message: undefined,
+  });
+
   const [errorMsg, setErrorMsg] = useState("");
   const [formState, formDispatch] = useReducer(formReducer, {
     inputValues: {
@@ -104,8 +111,13 @@ const LoginPage = () => {
       console.log("Admin doc", response.data.result);
 
       if (response.data.result.role !== 99) {
-        setErrorMsg("Please use an administration account to Login");
-        return;
+        return setError((prevState) => ({
+          ...prevState,
+          state: true,
+          message: `Please use an Admin account to Login ${
+            error.response ?? error.message
+          }`,
+        }));
       }
 
       const user = {
@@ -125,13 +137,22 @@ const LoginPage = () => {
       history.push("/");
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        setErrorMsg("Invalid username or password");
+        setError((prevState) => ({
+          ...prevState,
+          state: true,
+          message: `Invalid username and password ${
+            error.response ?? error.message
+          }`,
+        }));
       }
       if (error.response && error.response.status === 500) {
-        alert(
-          "Oops!",
-          "Something went wrong with our servers :( Try again later..."
-        );
+        setError((prevState) => ({
+          ...prevState,
+          state: true,
+          message: `Something went wrong with our servers :( Try again later... ${
+            error.response ?? error.message
+          }`,
+        }));
       }
     }
   };
@@ -185,6 +206,7 @@ const LoginPage = () => {
           </Button>
         </form>
       </div>
+      <ErrorSnack isVisible={error.state} message={error.message} />
     </Container>
   );
 };

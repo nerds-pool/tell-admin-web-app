@@ -11,6 +11,7 @@ import { GlobalContext } from "../../context";
 import api from "../../api";
 import { COLOR } from "../../theme/Color";
 import { BubbleChart } from "@material-ui/icons";
+import ErrorSnack from "../../components/alertBox/ErrorSnack";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -83,6 +84,11 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({});
 
+  const [error, setError] = useState({
+    state: undefined,
+    message: undefined,
+  });
+
   useEffect(() => {
     (async () => {
       try {
@@ -94,8 +100,14 @@ const Profile = () => {
         console.dir(response.data.result);
         setProfile((prevState) => ({ ...prevState, ...response.data.result }));
       } catch (error) {
-        console.error(error.response ?? error.message);
-      } finally {
+        setError((prevState) => ({
+            ...prevState,
+            state: true,
+            message: `Error while fetching admin profile ${
+              error.response ?? error.message
+            }`,
+          }));
+        } finally {
         setLoading(false);
       }
     })();
@@ -149,6 +161,7 @@ const Profile = () => {
           <Grid container></Grid>
         </form>
       </div>
+          <ErrorSnack isVisible={error.state} message={error.message} />
     </Container>
   );
 };
