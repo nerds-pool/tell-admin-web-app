@@ -31,7 +31,6 @@ const App = () => {
   const [report, setReport] = useState({});
 
   useEffect(() => {
-    console.log("filter state in App.js", filterState);
     if (userState.auth === true) {
       setAuth(true);
     } else {
@@ -45,7 +44,7 @@ const App = () => {
         try {
           const response = await api.get.report();
           if (!response.data.success) throw new Error(response.data.msg);
-          console.log("Report", response.data.result);
+          console.log("Report", response.data.msg);
           setReport(response.data.result);
         } catch (error) {
           console.log("Error while fetching report", error.message);

@@ -59,7 +59,6 @@ const Filter = ({ onFilter, onReset }) => {
     (async () => {
       try {
         const response = await api.get.filterData();
-        console.log("Filter Data", response.data.result);
         setFilterData((prevState) => ({
           ...prevState,
           categories: response.data.result.categories,
@@ -86,7 +85,6 @@ const Filter = ({ onFilter, onReset }) => {
   };
 
   const handleSelect = (e) => {
-    console.log("Selected", e.target.id);
     onFilter(e);
   };
 

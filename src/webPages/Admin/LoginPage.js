@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useContext } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -63,7 +63,7 @@ const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { userState, tokenState, dispatchUser, dispatchToken } = useContext(
+  const { dispatchUser, dispatchToken } = useContext(
     GlobalContext
   );
   
@@ -84,11 +84,6 @@ const LoginPage = () => {
     },
   });
 
-  useEffect(() => {
-    console.log("User from context", userState);
-    console.log("Token State", tokenState);
-  }, [userState, tokenState]);
-
   const handleInput = (e) => {
     formDispatch({
       type: FORM_UPDATE,
@@ -108,7 +103,6 @@ const LoginPage = () => {
         password: formState.inputValues.password,
       };
       const response = await api.post.signIn(signinBody);
-      console.log("Admin doc", response.data.result);
 
       if (response.data.result.role !== 99) {
         return setError((prevState) => ({

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://localhost:9000/.netlify/functions/api",
+  baseURL: "https://tell-lk.netlify.app/.netlify/functions/api",
   timeout: 10000,
 });
 
@@ -10,7 +10,6 @@ http.interceptors.request.use(
   (config) => {
     const signToken = localStorage.getItem("signToken");
     if (signToken) {
-      // console.log("SignToken at request interceptor:", signToken);
       config.headers["Authorization"] = `Bearer ${signToken}`;
     }
     return config;
@@ -22,10 +21,8 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // console.log("Error at response interceptor:", error);
     const originalReq = error.config;
     const refToken = localStorage.getItem("refToken");
-    // console.log("refToken at response interceptor:", refToken);
 
     if (refToken && error.response.status === 401 && !originalReq._retry) {
       originalReq._retry = true;

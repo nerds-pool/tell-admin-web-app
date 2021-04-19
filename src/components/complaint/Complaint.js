@@ -101,8 +101,6 @@ const Complaint = ({
     setComplaintType(status);
   }, [status]);
 
-  console.log(media);
-
   const handleOpenAlert = (e) => {
     e.preventDefault();
     setOpen(true);
@@ -112,7 +110,6 @@ const Complaint = ({
   };
 
   const handleConfirmAlert = async () => {
-    console.log("Confirmed job", id);
     try {
       const body = {
         userId: userState.data.id,
@@ -124,10 +121,7 @@ const Complaint = ({
       console.dir(response.data.result);
       onUpdate();
     } catch (error) {
-      console.log(
-        "Error at complaint mark done",
-        error.response ?? error.message
-      );
+      alert("Error at complaint mark done", error.response ?? error.message);
     } finally {
       handleCloseAlert();
     }

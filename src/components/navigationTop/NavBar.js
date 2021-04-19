@@ -45,7 +45,7 @@ function NavBar() {
     try {
       await dispatchUser(resetUser());
     } catch (error) {
-      console.log("Error while log out", error.message);
+      alert("Error while log out", error.message);
     }
   };
 
