@@ -213,7 +213,7 @@ const Complaint = ({
             <Typography variant="h4" className={classes.heading}>
               {title}
             </Typography>
-            <img className={classes.media} src={bicyleImg} alt="" />
+            {/* <img className={classes.media} src={bicyleImg} alt="" /> */}
             {/* <img
               className={classes.media}
               src={`https://tell-lk/.netlify/functions/api/file/${media}`}
